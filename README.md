@@ -9,7 +9,7 @@
 - The player will lose if they are hit too many times / too many enemies get past the player
 - The player can shoot and destroy enemy ships
 
-## Stretch goals:
+### Stretch goals:
 
 - Asteroids physics gamemode
 - Enemies can shoot towards the player
@@ -19,6 +19,6 @@
 
 ### Art Credits:
 
-[https://opengameart.org/content/spaceships-1]
-[https://opengameart.org/content/lasers-and-beams]
-[https://opengameart.org/content/another-space-backgrounds-0]
+https://opengameart.org/content/spaceships-1
+https://opengameart.org/content/lasers-and-beams
+https://opengameart.org/content/another-space-backgrounds-0
