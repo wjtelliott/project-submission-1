@@ -19,6 +19,6 @@
 
 ### Art Credits:
 
-https://opengameart.org/content/spaceships-1
-https://opengameart.org/content/lasers-and-beams
-https://opengameart.org/content/another-space-backgrounds-0
+- https://opengameart.org/content/spaceships-1
+- https://opengameart.org/content/lasers-and-beams
+- https://opengameart.org/content/another-space-backgrounds-0
