@@ -4,7 +4,7 @@ class Room {
         this.player = new Player();
 
         this.backgroundImage = new Image();
-        this.backgroundImage.src = './assets/resources/backgrounds/SpaceBackground-2.jpg';
+        this.backgroundImage.src = './assets/resources/backgrounds/SpaceBackground-4.jpg';
 
 
         this.lasers = [];

@@ -1,0 +1,24 @@
+body {
+    background-color: black;
+    color: aqua;
+}
+
+header {
+    text-align: center;
+    font-weight: 800;
+}
+
+h1 {
+    font-size: 3em;
+}
+
+#gameSpace {
+    display: block;
+    margin: auto;
+}
+
+footer p {
+    text-align: justify;
+    padding-top: 3em;
+    font-size: 2em;
+}

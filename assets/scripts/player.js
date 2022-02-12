@@ -1,14 +1,17 @@
 const PLAYER_MAX_SPEED = 7;
 const PLAYER_FRICTION = 0.3;
 
+const PLAYZONE_X = [25, 1125]
+const PLAYZONE_Y = [420, 815]
+
 
 class Player {
 
     constructor() {
         this.image = new Image();
         this.image.src = './assets/resources/player/shipsall.gif'
-        this.X = 10;
-        this.Y = 10;
+        this.X = 420;
+        this.Y = 1000;
         this.keys = {};
         
         this.lasers = [];
@@ -37,13 +40,23 @@ class Player {
 
         this.laserCurrentCooldown = (this.laserCurrentCooldown <= 0) ? 0 : this.laserCurrentCooldown - 1;
 
-        if (this.keys['f']) this.createTestLaser();
+        if (this.keys[' ']) this.createTestLaser();
 
         this.friction();
         this.clampVelocity();
 
         this.X += this.velocity.X;
         this.Y += this.velocity.Y;
+
+        this.clampPlayerInPlayerzone();
+    }
+
+    clampPlayerInPlayerzone() {
+        if (this.velocity.X + this.X > PLAYZONE_X[1]) this.X = PLAYZONE_X[1]
+        else if (this.velocity.X + this.X < PLAYZONE_X[0]) this.X = PLAYZONE_X[0]
+
+        if (this.velocity.Y + this.Y > PLAYZONE_Y[1]) this.Y = PLAYZONE_Y[1]
+        else if (this.velocity.Y + this.Y < PLAYZONE_Y[0]) this.Y = PLAYZONE_Y[0]
     }
 
     clampVelocity(maxValue = PLAYER_MAX_SPEED) {
@@ -77,6 +90,9 @@ class Player {
     }
 
     keyUpListener = e => this.keys[e.key] = false;
-    keyDownListener = e => this.keys[e.key] = true;
+    keyDownListener = e => {
+        if (e.key === ' ') e.preventDefault();
+        this.keys[e.key] = true;
+    }
 }
 
