@@ -11,11 +11,21 @@ class Player {
         this.Y = 10;
         this.keys = {};
         
+        this.lasers = [];
+
+        this.laserCooldown = 20;
+        this.laserCurrentCooldown = 0;
 
         this.velocity = {X: 0, Y: 0};
 
         window.addEventListener('keydown', this.keyDownListener, false);
         window.addEventListener('keyup', this.keyUpListener, false);
+    }
+
+    createTestLaser() {
+        if (this.laserCurrentCooldown > 0) return;
+        this.lasers.push(new Laser('./assets/resources/misc/beams.png', [this.X, this.Y], [0, -20], 55))
+        this.laserCurrentCooldown = this.laserCooldown;
     }
 
     update() {
@@ -24,17 +34,16 @@ class Player {
         if (this.keys['s']) this.velocity.Y++
         if (this.keys['w']) this.velocity.Y--;
 
-        if (this.keys['f']) createTestLaser();
+
+        this.laserCurrentCooldown = (this.laserCurrentCooldown <= 0) ? 0 : this.laserCurrentCooldown - 1;
+
+        if (this.keys['f']) this.createTestLaser();
 
         this.friction();
         this.clampVelocity();
 
         this.X += this.velocity.X;
         this.Y += this.velocity.Y;
-    }
-
-    createTestLaser() {
-        
     }
 
     clampVelocity(maxValue = PLAYER_MAX_SPEED) {

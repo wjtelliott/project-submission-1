@@ -2,6 +2,7 @@ let scriptLoader = {
     scriptList: [
         './assets/scripts/e1m1.js',
         './assets/scripts/player.js',
+        './assets/scripts/laser.js',
         './assets/scripts/spaceRender.js'
     ],
     runScript: (srcFile) => {
