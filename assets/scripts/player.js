@@ -1,5 +1,6 @@
 const PLAYER_MAX_SPEED = 7;
-const PLAYER_FRICTION = 0.3;
+const PLAYER_FRICTION = 0.2;
+const PLAYER_ACCEL = 0.4
 
 const PLAYZONE_X = [25, 1125]
 const PLAYZONE_Y = [420, 815]
@@ -27,15 +28,15 @@ class Player {
 
     createTestLaser() {
         if (this.laserCurrentCooldown > 0) return;
-        this.lasers.push(new Laser('./assets/resources/misc/beams.png', [this.X, this.Y], [0, -20], 55))
+        this.lasers.push(new Laser('./assets/resources/misc/beams.png', [this.X + 28, this.Y - 16], [0, -20], 55))
         this.laserCurrentCooldown = this.laserCooldown;
     }
 
     update() {
-        if (this.keys['d']) this.velocity.X++;
-        if (this.keys['a']) this.velocity.X--
-        if (this.keys['s']) this.velocity.Y++
-        if (this.keys['w']) this.velocity.Y--;
+        if (this.keys['d']) this.velocity.X+=PLAYER_ACCEL;
+        if (this.keys['a']) this.velocity.X-=PLAYER_ACCEL;
+        if (this.keys['s']) this.velocity.Y+=PLAYER_ACCEL;
+        if (this.keys['w']) this.velocity.Y-=PLAYER_ACCEL;
 
 
         this.laserCurrentCooldown = (this.laserCurrentCooldown <= 0) ? 0 : this.laserCurrentCooldown - 1;
@@ -85,7 +86,11 @@ class Player {
         return {
             image: this.image,
             X: this.X,
-            Y: this.Y
+            Y: this.Y,
+            sourceX: 0,
+            sourceY: 0,
+            sourceWidth: 64,
+            sourceHeight: 64
         }
     }
 

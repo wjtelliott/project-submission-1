@@ -8,6 +8,9 @@ const spaceRender = {
     clearDrawing: (x = 0, y = 0, width = spaceRender.canvasSpace.width, height = spaceRender.canvasSpace.height) => spaceRender.context.clearRect(x, y, width, height),
     drawSerializedObject: (sObject) => {
         if (sObject === null) return;
-        spaceRender.context.drawImage(sObject.image, sObject.X, sObject.Y);
+        if (sObject.sourceX !== undefined) {
+            spaceRender.context.drawImage(sObject.image, sObject.sourceX, sObject.sourceY, sObject.sourceWidth,
+                sObject.sourceHeight, sObject.X, sObject.Y, sObject.sourceWidth, sObject.sourceHeight);
+        } else spaceRender.context.drawImage(sObject.image, sObject.X, sObject.Y);
     }
 }
