@@ -10,8 +10,12 @@ class Room {
         this.lasers = [];
 
 
+        this.newEnemyCounter = 240;
+        this.newEnemyCounterCurrent = 0;
+
+
         this.enemies = [];
-        this.enemies.push(new spaceEnemy('./assets/resources/player/shipsall.gif', [50, 50], [0, .5]));
+        this.enemies.push(new spaceEnemy('./assets/resources/player/shipsall.gif', [550, 10], [0, .3]));
     }
 
     updateLasers() {
@@ -24,8 +28,24 @@ class Room {
         })
     }
 
+    spawnNewEnemy() {
+
+        this.enemies.push(new spaceEnemy('./assets/resources/player/shipsall.gif', [Math.random() * 1000, -64], [0, Math.random() * 4]))
+
+    }
+
     update() {
         this.player.update();
+
+        this.newEnemyCounterCurrent++;
+        if (this.newEnemyCounterCurrent > this.newEnemyCounter) {
+            this.newEnemyCounterCurrent = 0;
+            this.newEnemyCounter = Math.max(60, Math.random() * 240);
+            this.spawnNewEnemy();
+        }
+
+        
+
 
         while (this.player.lasers.length > 0) this.lasers.push(this.player.lasers.pop())
 
@@ -33,7 +53,11 @@ class Room {
         
         this.enemies = this.enemies.filter(e => {
             e.update(this.lasers);
-            return !e.removeFromMap;
+            if (e.removeFromMap) {
+                this.player.addScore(e.scoreWorth);
+                return false;
+            };
+            return true;
         });
 
         this.draw();

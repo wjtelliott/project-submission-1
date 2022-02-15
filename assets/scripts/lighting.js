@@ -106,5 +106,5 @@ const lightUtil = {
     }
 }
 
-var light2 = new Light(new Vector(925, 525), 1200, 'rgba(250,250,255,0.02)')
+var light2 = new Light(new Vector(925, 525), 1200, 'rgba(250,250,255,0.04)')
 lightController.lights.push(light2);

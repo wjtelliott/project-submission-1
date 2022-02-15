@@ -20,6 +20,8 @@ class Player {
         this.laserCooldown = 20;
         this.laserCurrentCooldown = 0;
 
+        this.score = 0;
+
         this.velocity = {X: 0, Y: 0};
 
         window.addEventListener('keydown', this.keyDownListener, false);
@@ -28,9 +30,13 @@ class Player {
 
     createTestLaser() {
         if (this.laserCurrentCooldown > 0) return;
-        this.lasers.push(new Laser('./assets/resources/misc/beams.png', [this.X + 28, this.Y - 16], [0, -20], 55))
+        if (this.score > 100) {
+            this.lasers.push(new Laser('./assets/resources/misc/beams.png', [this.X + 28, this.Y - 16], [0, -15], 75, 'red'))
+        } else this.lasers.push(new Laser('./assets/resources/misc/beams.png', [this.X + 28, this.Y - 16], [0, -20], 55))
         this.laserCurrentCooldown = this.laserCooldown;
     }
+
+    addScore = toAdd => $('#gameScore').text(this.score += Number(toAdd.toFixed(0)));
 
     update() {
         if (this.keys['d']) this.velocity.X+=PLAYER_ACCEL;

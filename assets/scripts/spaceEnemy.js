@@ -5,6 +5,7 @@ class spaceEnemy {
         this.position = pos;
         this.velocity = vel;
         this.removeFromMap = false;
+        this.scoreWorth = this.velocity[1] * 10;
     }
 
     update(lasers) {
@@ -15,8 +16,8 @@ class spaceEnemy {
 
     getDistance(laserPosition) {
         if (laserPosition === null || this.position === null) return Infinity;
-        let p1 = laserPosition[0] - this.position[0];
-        let p2 = laserPosition[1] - this.position[1];
+        let p1 = laserPosition[0] - (this.position[0] + 32);
+        let p2 = laserPosition[1] - (this.position[1] + 32);
         return (p1 * p1) + (p2 * p2);
     }
 
@@ -28,7 +29,7 @@ class spaceEnemy {
         lasers.forEach(e => {
             if (this.getDistance(e.position) < 2500) {
                 this.kill();
-                e.removeFromMap = true;
+                e.removeFromMap = (e.laserType !== 'red');
             }
         });
     }

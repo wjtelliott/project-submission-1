@@ -9,7 +9,8 @@ class Laser {
         this.laserType = lType;
 
 
-        this.light = new Light(new Vector(this.position[0], this.position[1]), 200, 'rgba(250,1,250,.02)');
+        if (this.laserType === 'red') this.light = new Light(new Vector(this.position[0] + 21, this.position[1] + 50), 300, 'rgba(250,1,1,.04)');
+        else this.light = new Light(new Vector(this.position[0] + 9, this.position[1] + 16), 200, 'rgba(250,1,250,.02)');
         lightController.lights.push(this.light);
 
     }
@@ -17,8 +18,9 @@ class Laser {
         this.position[0] += this.velocity[0];
         this.position[1] += this.velocity[1];
 
-        this.light.position.x = this.position[0] + 10;
-        this.light.position.y = this.position[1] + 10;
+        this.light.position.x += this.velocity[0];
+        this.light.position.y += this.velocity[1];
+        
         this.lifespan--;
     }
 
@@ -34,6 +36,12 @@ class Laser {
                 sourceY: 59,
                 sourceWidth: 18,
                 sourceHeight: 32
+            }
+            case 'red': return {
+                sourceX: 213,
+                sourceY: 306,
+                sourceWidth: 43,
+                sourceHeight: 98
             }
         }
     }
