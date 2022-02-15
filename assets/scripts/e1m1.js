@@ -9,12 +9,18 @@ class Room {
 
         this.lasers = [];
 
+
+        this.enemies = [];
+        this.enemies.push(new spaceEnemy('./assets/resources/player/shipsall.gif', [50, 50], [0, .5]));
     }
 
     updateLasers() {
         return this.lasers.filter( e => {
             e.update();
-            return (e.lifespan > 0)
+            if (e.lifespan < 0 || e.removeFromMap) {
+                e.kill();
+                return false;
+            } else return true;
         })
     }
 
@@ -24,6 +30,11 @@ class Room {
         while (this.player.lasers.length > 0) this.lasers.push(this.player.lasers.pop())
 
         this.lasers = this.updateLasers();
+        
+        this.enemies = this.enemies.filter(e => {
+            e.update(this.lasers);
+            return !e.removeFromMap;
+        });
 
         this.draw();
     }
@@ -34,14 +45,22 @@ class Room {
 
         spaceRender.clearDrawing();
 
+
         spaceRender.drawSerializedObject({
             image: this.backgroundImage,
             X: 0,
             Y: 0
         });
 
+        lightController.draw(spaceRender.context);
+
 
         this.lasers.forEach(e => spaceRender.drawSerializedObject(e.serializeObject()));
+
+
+        this.enemies.forEach(e=>spaceRender.drawSerializedObject(e.serializeObject()));
+
+        
 
         spaceRender.drawSerializedObject(this.player.serializeObject());
     }

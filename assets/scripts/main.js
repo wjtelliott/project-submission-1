@@ -1,9 +1,11 @@
 let scriptLoader = {
     scriptList: [
+        './assets/scripts/lighting.js',
         './assets/scripts/e1m1.js',
         './assets/scripts/player.js',
         './assets/scripts/laser.js',
-        './assets/scripts/spaceRender.js'
+        './assets/scripts/spaceRender.js',
+        './assets/scripts/spaceEnemy.js',
     ],
     runScript: (srcFile) => {
         let scriptDOM = Object.assign(document.createElement('script'), {src: srcFile})
@@ -15,6 +17,4 @@ let scriptLoader = {
     },
 }
 
-$(document).ready(()=>{
-    scriptLoader.loadScripts();
-});
+$(document).ready(()=>scriptLoader.loadScripts());

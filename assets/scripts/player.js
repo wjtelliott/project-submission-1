@@ -94,6 +94,17 @@ class Player {
         }
     }
 
+    serializeLightMap() {
+        return {
+            position: {
+                x: this.X,
+                y: this.Y
+            },
+            width: 64,
+            height: 64
+        }
+    }
+
     keyUpListener = e => this.keys[e.key] = false;
     keyDownListener = e => {
         if (e.key === ' ') e.preventDefault();
