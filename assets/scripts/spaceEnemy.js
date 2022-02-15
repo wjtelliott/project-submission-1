@@ -6,12 +6,15 @@ class spaceEnemy {
         this.velocity = vel;
         this.removeFromMap = false;
         this.scoreWorth = this.velocity[1] * 10;
+        this.hurtPlayer = false;
     }
 
     update(lasers) {
         this.position[0] += this.velocity[0];
         this.position[1] += this.velocity[1];
         this.checkCollision(lasers);
+
+        if (this.position[1] >= 900) this.kill(true);
     }
 
     getDistance(laserPosition) {
@@ -21,7 +24,8 @@ class spaceEnemy {
         return (p1 * p1) + (p2 * p2);
     }
 
-    kill() {
+    kill(hurtPlayer) {
+        this.hurtPlayer = hurtPlayer ?? false;
         this.removeFromMap = true;
     }
 

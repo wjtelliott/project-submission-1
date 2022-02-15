@@ -1,21 +1,27 @@
 class Room {
-    constructor() {
+    constructor(backgroundImagePath, enemySpawnRates, startingLights, enemySpawnPos) {
 
+        // Create our player
         this.player = new Player();
 
+        // Background images
         this.backgroundImage = new Image();
-        this.backgroundImage.src = './assets/resources/backgrounds/SpaceBackground-4.jpg';
+        this.backgroundImage.src = backgroundImagePath;//'./assets/resources/backgrounds/SpaceBackground-4.jpg';
 
 
+        // Laser and enemies
         this.lasers = [];
-
-
-        this.newEnemyCounter = 240;
-        this.newEnemyCounterCurrent = 0;
-
-
         this.enemies = [];
-        this.enemies.push(new spaceEnemy('./assets/resources/player/shipsall.gif', [550, 10], [0, .3]));
+
+        // Enemy spawn rates & positioning
+        this.newEnemyCounterMax = enemySpawnRates.max;
+        this.newEnemyCounterMin = enemySpawnRates.min;
+        this.newEnemyCounterCurrent = 0;
+        this.newEnemySpawnTimer = this.newEnemyCounterMax;
+
+        this.enemySpawnPositions = enemySpawnPos;
+
+        lightController.lights = startingLights;
     }
 
     updateLasers() {
@@ -28,19 +34,15 @@ class Room {
         })
     }
 
-    spawnNewEnemy() {
-
-        this.enemies.push(new spaceEnemy('./assets/resources/player/shipsall.gif', [Math.random() * 1000, -64], [0, Math.random() * 4]))
-
-    }
+    spawnNewEnemy = () => this.enemies.push(new spaceEnemy('./assets/resources/player/shipsall.gif', [Math.random() * this.enemySpawnPositions.max + this.enemySpawnPositions.min, -64], [0, Math.random() * 4]));
 
     update() {
         this.player.update();
 
         this.newEnemyCounterCurrent++;
-        if (this.newEnemyCounterCurrent > this.newEnemyCounter) {
+        if (this.newEnemyCounterCurrent > this.newEnemySpawnTimer) {
             this.newEnemyCounterCurrent = 0;
-            this.newEnemyCounter = Math.max(60, Math.random() * 240);
+            this.newEnemySpawnTimer = Math.max(this.newEnemyCounterMin, Math.random() * this.newEnemyCounterMax);
             this.spawnNewEnemy();
         }
 
@@ -54,7 +56,8 @@ class Room {
         this.enemies = this.enemies.filter(e => {
             e.update(this.lasers);
             if (e.removeFromMap) {
-                this.player.addScore(e.scoreWorth);
+                e.hurtPlayer ? this.player.hurt(1) : this.player.addScore(e.scoreWorth);
+                
                 return false;
             };
             return true;
@@ -89,16 +92,3 @@ class Room {
         spaceRender.drawSerializedObject(this.player.serializeObject());
     }
 }
-
-let r = new Room();
-
-let startDemo;
-function startGame() {
-    startDemo = setInterval(() => {
-        r.update();
-    }, 16);
-}
-function stopGame() {
-    clearInterval(startDemo);
-}
-startGame();

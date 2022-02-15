@@ -1,9 +1,10 @@
 let scriptLoader = {
     scriptList: [
-        './assets/scripts/lighting.js',
-        './assets/scripts/e1m1.js',
-        './assets/scripts/player.js',
-        './assets/scripts/laser.js',
+        './assets/scripts/episodes.js',
+        './assets/scripts/spaceMap.js',
+        './assets/scripts/spaceLighting.js',
+        './assets/scripts/spacePlayer.js',
+        './assets/scripts/spaceLaser.js',
         './assets/scripts/spaceRender.js',
         './assets/scripts/spaceEnemy.js',
     ],
@@ -13,7 +14,7 @@ let scriptLoader = {
         document.querySelector('body').append(scriptDOM);
     },
     loadScripts: () => {
-        if (scriptLoader.scriptList.length > 0) scriptLoader.runScript(scriptLoader.scriptList.pop())
+        if (scriptLoader.scriptList.length > 0) scriptLoader.runScript(scriptLoader.scriptList.pop());
     },
 }
 

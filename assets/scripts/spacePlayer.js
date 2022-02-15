@@ -15,6 +15,8 @@ class Player {
         this.Y = 1000;
         this.keys = {};
         
+        this.lives = 10;
+
         this.lasers = [];
 
         this.laserCooldown = 20;
@@ -37,8 +39,14 @@ class Player {
     }
 
     addScore = toAdd => $('#gameScore').text(this.score += Number(toAdd.toFixed(0)));
+    hurt = amount => $('#gameLives').text(this.lives -= Number(amount.toFixed(0)));
 
     update() {
+
+
+        if (this.lives <= 0) stopGame("You lose");
+        if (this.score > 200) stopGame("You win");
+
         if (this.keys['d']) this.velocity.X+=PLAYER_ACCEL;
         if (this.keys['a']) this.velocity.X-=PLAYER_ACCEL;
         if (this.keys['s']) this.velocity.Y+=PLAYER_ACCEL;
