@@ -56,7 +56,7 @@ class Room {
     spawnNewEnemy = () => this.enemies.push(new spaceEnemy('./assets/resources/player/shipsall.gif', [Math.random() * this.enemySpawnPositions.max + this.enemySpawnPositions.min, -64], [0, Math.random() * 4]));
 
     addNewParticle = (location) => {
-        let newPart = new Particle('./assets/resources/misc/explosion_01_strip13.png', 196, 190, true);
+        let newPart = new Particle(Math.max(1, Math.floor(Math.random() * 4)), 196, 190, true);
         newPart.position = location;
         particleController.particles.push(newPart);
     }

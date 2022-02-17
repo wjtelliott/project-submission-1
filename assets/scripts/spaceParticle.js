@@ -1,7 +1,15 @@
+const PARTICLE_IMAGE_1 = Object.assign(new Image(), {src: './assets/resources/misc/explosion_01_strip13.png'});
+const PARTICLE_IMAGE_2 = Object.assign(new Image(), {src: './assets/resources/misc/explosion_02_strip13.png'});
+const PARTICLE_IMAGE_3 = Object.assign(new Image(), {src: './assets/resources/misc/explosion_03_strip13.png'});
+
 class Particle {
     constructor(sprite, width = 1, height = 1, animates = false) {
-        this.image = new Image();
-        this.image.src = sprite;
+        switch (sprite) {
+            default:
+            case 1: this.image = PARTICLE_IMAGE_1; break;
+            case 2: this.image = PARTICLE_IMAGE_2; break;
+            case 3: this.image = PARTICLE_IMAGE_3; break;
+        }
         this.width = width;
         this.height = height;
         this.isAnimated = animates;
@@ -12,6 +20,7 @@ class Particle {
             this.animationCounterMax = 4;
             this.frame = 0;
             this.maxFrames = 13;//this.image.width / this.width;
+            this.width = this.image.width / this.maxFrames;
         }
     }
 
