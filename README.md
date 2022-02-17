@@ -14,6 +14,7 @@
 - Asteroids physics gamemode
 - Enemies can shoot towards the player
 - Rounds / levels ( Reached )
+- Enemies move in patterns
 
 ### Bonus bonus goals:
 
