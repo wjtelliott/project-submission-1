@@ -15,7 +15,7 @@ class Player {
         this.Y = 1000;
         this.keys = {};
         
-        this.lives = 10;
+        this.lives = 3;
 
         this.lasers = [];
 
@@ -23,6 +23,8 @@ class Player {
         this.laserCurrentCooldown = 0;
 
         this.score = 0;
+
+        this.useFriction = true;
 
         this.velocity = {X: 0, Y: 0};
 
@@ -57,7 +59,7 @@ class Player {
 
         if (this.keys[' ']) this.createTestLaser();
 
-        this.friction();
+        (this.useFriction) ? this.friction() : null;
         this.clampVelocity();
 
         this.X += this.velocity.X;

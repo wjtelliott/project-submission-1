@@ -25,7 +25,13 @@ let lightController = {
     }
 }
 
-
+/**
+ * 
+ * 
+ * Lighting system inspired and pushed into this project from
+ * https://jsfiddle.net/yckart/bfk8jzam/
+ * 
+ */
 const lightUtil = {
     findDistance: (light, object, angle, rLen, start, shortest, closestObject) => {
         
@@ -49,6 +55,9 @@ const lightUtil = {
             pointPos.y > object.position.y && pointPos.y < object.position.y + object.height
             ) {
                 if (start || dist < shortest) {
+                    // we found a new object with shorter distance
+
+                    // I don't like how the original edits params as variables
                     start = false;
                     shortest = dist;
                     rLen = dist;
@@ -57,7 +66,7 @@ const lightUtil = {
             }
         }
 
-        // Return light data
+        // Return light distance data
         return {
             'start': start,
             'shortest': shortest,
@@ -68,18 +77,19 @@ const lightUtil = {
 
     shineLight: (light, ctx) => {
 
+        // If the current map's enemies are null, the map is not yet initialized correctly
         if (episodeController?.currentMap?.enemies == null) return;
+
 
         let curAngle = light.angle - (light.angleSpread / 2);
         let dynLen = light.radius;
         let addTo = 1 / light.radius;
         
 
+        // For each angle, find the distance to the nearest object, and then draw a colored line equal to that distance
         for (curAngle; curAngle < light.angle + (light.angleSpread / 2); curAngle += (addTo * (180 / Math.PI)) * 2) {
+
             dynLen = light.radius;
-
-
-
             let findDistRes = {};
             findDistRes.start = true;
             findDistRes.shortest = 0;
@@ -93,13 +103,18 @@ const lightUtil = {
             // player
             findDistRes = lightUtil.findDistance(light, episodeController.currentMap.player.serializeLightMap(), curAngle, findDistRes.rLen, findDistRes.start, findDistRes.shortest, findDistRes.block);
 
+
+            // get rotation
             let rads = curAngle * (Math.PI / 180);
+
+            // end = light position
             let end = new Vector(light.position.x, light.position.y);
 
-            findDistRes.block.visible = true;
+            // end position += angle * length of nearest object
             end.x += Math.cos(rads) * findDistRes.rLen;
             end.y += Math.sin(rads) * findDistRes.rLen;
 
+            // Draw from this light pos to end pos
             ctx.beginPath();
             ctx.moveTo(light.position.x, light.position.y);
             ctx.lineTo(end.x, end.y);

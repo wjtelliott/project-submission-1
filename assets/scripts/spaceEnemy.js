@@ -9,15 +9,16 @@ class spaceEnemy {
         this.hurtPlayer = false;
     }
 
-    update(lasers) {
+    update(lasers, playerPosition) {
         this.position[0] += this.velocity[0];
         this.position[1] += this.velocity[1];
-        this.checkCollision(lasers);
+        this.checkCollision(lasers, playerPosition);
 
         if (this.position[1] >= 900) this.kill(true);
     }
 
     getDistance(laserPosition) {
+        // laserPosition will always be X as [0] and Y as [1], same as this.position / this.velocity
         if (laserPosition === null || this.position === null) return Infinity;
         let p1 = laserPosition[0] - (this.position[0] + 32);
         let p2 = laserPosition[1] - (this.position[1] + 32);
@@ -29,13 +30,14 @@ class spaceEnemy {
         this.removeFromMap = true;
     }
 
-    checkCollision(lasers) {
+    checkCollision(lasers, playerPosition) {
         lasers.forEach(e => {
             if (this.getDistance(e.position) < 2500) {
                 this.kill();
                 e.removeFromMap = (e.laserType !== 'red');
             }
         });
+        if (this.getDistance(playerPosition) < 2500) this.kill(true);
     }
 
     serializeObject() {

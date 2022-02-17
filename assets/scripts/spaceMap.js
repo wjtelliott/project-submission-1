@@ -1,8 +1,12 @@
 class Room {
-    constructor(backgroundImagePath, enemySpawnRates, startingLights, enemySpawnPos, name) {
+    constructor(backgroundImagePath, enemySpawnRates, startingLights, enemySpawnPos, name, friction, dialog) {
 
         // Create our player
         this.player = new Player();
+
+        this.mapDialogText = dialog;
+
+        this.player.useFriction = friction;
 
         // Background images
         this.backgroundImage = new Image();
@@ -28,9 +32,15 @@ class Room {
         this.mapName = name;
     }
 
+
+    mapDialog = text => $('#gameInfo').text(text);
+
     init() {
         this.isLoaded = true;
         lightController.lights = this.lights;
+        this.player.hurt(0);
+        this.player.addScore(0);
+        (this.mapDialogText != null) ? this.mapDialog(this.mapDialogText) : null;
     }
 
     updateLasers() {
@@ -45,9 +55,16 @@ class Room {
 
     spawnNewEnemy = () => this.enemies.push(new spaceEnemy('./assets/resources/player/shipsall.gif', [Math.random() * this.enemySpawnPositions.max + this.enemySpawnPositions.min, -64], [0, Math.random() * 4]));
 
+    addNewParticle = (location) => {
+        let newPart = new Particle('./assets/resources/misc/explosion_01_strip13.png', 196, 190, true);
+        newPart.position = location;
+        particleController.particles.push(newPart);
+    }
+
     kill() {
         this.enemies = [];
         lightController.lights = [];
+        particleController.particles = [];
     }
 
 
@@ -71,14 +88,16 @@ class Room {
         this.lasers = this.updateLasers();
         
         this.enemies = this.enemies.filter(e => {
-            e.update(this.lasers);
+            e.update(this.lasers, [this.player.X, this.player.Y]);
             if (e.removeFromMap) {
                 e.hurtPlayer ? this.player.hurt(1) : this.player.addScore(e.scoreWorth);
-                
+                this.addNewParticle([e.position[0] - 70, e.position[1] - 70]);
                 return false;
             };
             return true;
         });
+
+        particleController.update();
 
         this.draw();
     }
@@ -104,7 +123,7 @@ class Room {
 
         this.enemies.forEach(e=>spaceRender.drawSerializedObject(e.serializeObject()));
 
-        
+        particleController.draw();
 
         spaceRender.drawSerializedObject(this.player.serializeObject());
     }
