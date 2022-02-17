@@ -80,5 +80,5 @@ let episodeController = {
         } else episodeController.currentMap = map;
     }
 }
-episodeController.nextMap(e1m2);
+episodeController.nextMap(e1m1);
 episodeController.startGame();

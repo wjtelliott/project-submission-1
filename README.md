@@ -4,7 +4,7 @@
 
 ### MVP:
 
-- Player has to have the 'illusion' of moving upwards from the space background
+- ~~~Player has to have the 'illusion' of moving upwards from the space background~~~ ( Changed )
 - Enemies will spawn and fly downwards towards the player ( Reached )
 - The player will lose if they are hit too many times / too many enemies get past the player ( Reached )
 - The player can shoot and destroy enemy ships ( Reached )
