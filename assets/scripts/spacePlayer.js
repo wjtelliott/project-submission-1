@@ -44,8 +44,8 @@ class Player {
     update() {
 
 
-        if (this.lives <= 0) stopGame("You lose");
-        if (this.score > 200) stopGame("You win");
+        if (this.lives <= 0) episodeController.stopGame("You lose");
+        if (this.score > 200) episodeController.nextMap();//episodeController.stopGame("You win");
 
         if (this.keys['d']) this.velocity.X+=PLAYER_ACCEL;
         if (this.keys['a']) this.velocity.X-=PLAYER_ACCEL;

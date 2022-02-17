@@ -67,6 +67,9 @@ const lightUtil = {
     },
 
     shineLight: (light, ctx) => {
+
+        if (episodeController?.currentMap?.enemies == null) return;
+
         let curAngle = light.angle - (light.angleSpread / 2);
         let dynLen = light.radius;
         let addTo = 1 / light.radius;
@@ -85,10 +88,10 @@ const lightUtil = {
 
 
             // obstructions
-            for (let i = 0; i < r.enemies.length; i++) findDistRes = lightUtil.findDistance(light, r.enemies[i].serializeLightMap(), curAngle, findDistRes.rLen, findDistRes.start, findDistRes.shortest, findDistRes.block);
+            for (let i = 0; i < episodeController.currentMap.enemies.length; i++) findDistRes = lightUtil.findDistance(light, episodeController.currentMap.enemies[i].serializeLightMap(), curAngle, findDistRes.rLen, findDistRes.start, findDistRes.shortest, findDistRes.block);
 
             // player
-            findDistRes = lightUtil.findDistance(light, r.player.serializeLightMap(), curAngle, findDistRes.rLen, findDistRes.start, findDistRes.shortest, findDistRes.block);
+            findDistRes = lightUtil.findDistance(light, episodeController.currentMap.player.serializeLightMap(), curAngle, findDistRes.rLen, findDistRes.start, findDistRes.shortest, findDistRes.block);
 
             let rads = curAngle * (Math.PI / 180);
             let end = new Vector(light.position.x, light.position.y);

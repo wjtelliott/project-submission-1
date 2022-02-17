@@ -1,5 +1,5 @@
 class Room {
-    constructor(backgroundImagePath, enemySpawnRates, startingLights, enemySpawnPos) {
+    constructor(backgroundImagePath, enemySpawnRates, startingLights, enemySpawnPos, name) {
 
         // Create our player
         this.player = new Player();
@@ -21,7 +21,16 @@ class Room {
 
         this.enemySpawnPositions = enemySpawnPos;
 
-        lightController.lights = startingLights;
+        this.lights = startingLights;
+
+        this.isLoaded = false;
+
+        this.mapName = name;
+    }
+
+    init() {
+        this.isLoaded = true;
+        lightController.lights = this.lights;
     }
 
     updateLasers() {
@@ -35,6 +44,14 @@ class Room {
     }
 
     spawnNewEnemy = () => this.enemies.push(new spaceEnemy('./assets/resources/player/shipsall.gif', [Math.random() * this.enemySpawnPositions.max + this.enemySpawnPositions.min, -64], [0, Math.random() * 4]));
+
+    kill() {
+        this.enemies = [];
+        lightController.lights = [];
+    }
+
+
+    toString = () => this.mapName;
 
     update() {
         this.player.update();
