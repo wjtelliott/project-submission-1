@@ -7,21 +7,31 @@ class spaceEnemy {
         this.removeFromMap = false;
         this.scoreWorth = this.velocity[1] * 10;
         this.hurtPlayer = false;
+        this.inFormation = false;
     }
 
-    update(lasers, playerPosition) {
+    update(lasers, playerPosition, formationVelocity) {
+        if (this.inFormation) {
+            this.velocity = formationVelocity;
+        } else {
+            //flying in
+            this.velocity[0] = Math.cos(this.position[1] / 10) * 5;
+            if (this.position[1] >= 250) this.inFormation = true;
+        }
+
         this.position[0] += this.velocity[0];
         this.position[1] += this.velocity[1];
+
         this.checkCollision(lasers, playerPosition);
 
         if (this.position[1] >= 900) this.kill(true);
     }
 
-    getDistance(laserPosition) {
-        // laserPosition will always be X as [0] and Y as [1], same as this.position / this.velocity
-        if (laserPosition === null || this.position === null) return Infinity;
-        let p1 = laserPosition[0] - (this.position[0] + 32);
-        let p2 = laserPosition[1] - (this.position[1] + 32);
+    getDistance(objectPosition) {
+        // objectPosition will always be X as [0] and Y as [1], same as this.position / this.velocity
+        if (objectPosition === null || this.position === null) return Infinity;
+        let p1 = objectPosition[0] - (this.position[0] + 32);
+        let p2 = objectPosition[1] - (this.position[1] + 32);
         return (p1 * p1) + (p2 * p2);
     }
 

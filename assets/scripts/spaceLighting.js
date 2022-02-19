@@ -71,8 +71,17 @@ const lightUtil = {
             'start': start,
             'shortest': shortest,
             'rLen': rLen,
-            'block': closestObject
+            'object': closestObject
         };
+    },
+
+    setAlphaColor: (string, delta) => {
+        /**
+         * This will have unexpected results if the alpha channel has
+         * the same value as a color
+         */
+        let alpha = string.match(/^.+\((?:(?:.+\,)?)+(.+)\)$/)[1];
+        return string.replace(alpha, Math.max(0, Number(alpha) - Number(delta)).toFixed(2))
     },
 
     shineLight: (light, ctx) => {
@@ -101,7 +110,7 @@ const lightUtil = {
             for (let i = 0; i < episodeController.currentMap.enemies.length; i++) findDistRes = lightUtil.findDistance(light, episodeController.currentMap.enemies[i].serializeLightMap(), curAngle, findDistRes.rLen, findDistRes.start, findDistRes.shortest, findDistRes.block);
 
             // player
-            findDistRes = lightUtil.findDistance(light, episodeController.currentMap.player.serializeLightMap(), curAngle, findDistRes.rLen, findDistRes.start, findDistRes.shortest, findDistRes.block);
+            findDistRes = lightUtil.findDistance(light, episodeController.currentMap.player.serializeLightMap(), curAngle, findDistRes.rLen, findDistRes.start, findDistRes.shortest, findDistRes.object);
 
 
             // get rotation
@@ -120,6 +129,13 @@ const lightUtil = {
             ctx.lineTo(end.x, end.y);
             ctx.closePath();
             ctx.stroke();
+        }
+
+        
+
+        if (light.isExplosive) {
+            // Light decay
+            light.color = lightUtil.setAlphaColor(light.color, 0.01)
         }
     }
 }

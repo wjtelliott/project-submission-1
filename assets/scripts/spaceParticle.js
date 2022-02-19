@@ -22,12 +22,19 @@ class Particle {
             this.maxFrames = 13;//this.image.width / this.width;
             this.width = this.image.width / this.maxFrames;
         }
+        this.light = new Light(new Vector(this.position[0], this.position[1]), 125, 'rgba(100, 0, 0, 0.2)');
+        this.light.isExplosive = true;
     }
 
-    setPosition = newPos => this.position = newPos; 
+    setPosition = newPos => {
+        this.position = newPos;
+        this.light.position = new Vector(this.position[0] + 96, this.position[1] + 96);
+        lightController.lights.push(this.light);
+    }
 
     kill() {
         this.removeFromMap = true;
+        lightController.lights = lightController.lights.filter(e => e !== this.light);
     }
 
     update() {

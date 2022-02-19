@@ -30,6 +30,17 @@ class Room {
         this.isLoaded = false;
 
         this.mapName = name;
+
+
+        this.formationPattern = [
+            [2, 0],
+            [0, 0.3],
+            [-2, 0],
+            [0, 0.3]
+        ];
+        this.formationCounterMax = 50;
+        this.formationCounter = 0;
+        this.currentFormation = 0;
     }
 
 
@@ -53,11 +64,11 @@ class Room {
         })
     }
 
-    spawnNewEnemy = () => this.enemies.push(new spaceEnemy('./assets/resources/player/shipsall.gif', [Math.random() * this.enemySpawnPositions.max + this.enemySpawnPositions.min, -64], [0, Math.random() * 4]));
+    spawnNewEnemy = () => this.enemies.push(new spaceEnemy('./assets/resources/player/shipsall.gif', [Math.random() * this.enemySpawnPositions.max + this.enemySpawnPositions.min, -64], [0, Math.min(2, Math.random() * 4)]));
 
     addNewParticle = (location) => {
         let newPart = new Particle(Math.max(1, Math.floor(Math.random() * 4)), 196, 190, true);
-        newPart.position = location;
+        newPart.setPosition(location);
         particleController.particles.push(newPart);
     }
 
@@ -71,6 +82,13 @@ class Room {
     toString = () => this.mapName;
 
     update() {
+
+
+        this.formationCounter = (this.formationCounter + 1 > this.formationCounterMax) ? 0 : this.formationCounter + 1;
+        if (this.formationCounter === 0) {
+            this.currentFormation = (this.currentFormation + 1 >= this.formationPattern.length) ? 0 : this.currentFormation + 1;
+        }
+
         this.player.update();
 
         this.newEnemyCounterCurrent++;
@@ -88,7 +106,7 @@ class Room {
         this.lasers = this.updateLasers();
         
         this.enemies = this.enemies.filter(e => {
-            e.update(this.lasers, [this.player.X, this.player.Y]);
+            e.update(this.lasers, [this.player.X, this.player.Y], this.formationPattern[this.currentFormation]);
             if (e.removeFromMap) {
                 e.hurtPlayer ? this.player.hurt(1) : this.player.addScore(e.scoreWorth);
                 this.addNewParticle([e.position[0] - 70, e.position[1] - 70]);

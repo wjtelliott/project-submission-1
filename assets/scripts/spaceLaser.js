@@ -9,9 +9,9 @@ class Laser {
         this.laserType = lType;
 
 
-        if (this.laserType === 'red') this.light = new Light(new Vector(this.position[0] + 21, this.position[1] + 50), 300, 'rgba(250,1,1,.04)');
+        if (this.laserType === 'red') this.light = new Light(new Vector(this.position[0] + 21, this.position[1] + 50), 200, 'rgba(250,1,1,.04)');
         else this.light = new Light(new Vector(this.position[0] + 9, this.position[1] + 16), 200, 'rgba(250,1,250,.02)');
-        lightController.lights.push(this.light);
+        //lightController.lights.push(this.light);
 
     }
     update() {
@@ -25,7 +25,7 @@ class Laser {
     }
 
     kill() {
-        lightController.lights = lightController.lights.filter(e => e !== this.light);
+        //lightController.lights = lightController.lights.filter(e => e !== this.light);
     }
 
     getLaserProperties() {

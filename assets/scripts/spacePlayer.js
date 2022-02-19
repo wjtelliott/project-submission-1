@@ -19,7 +19,7 @@ class Player {
 
         this.lasers = [];
 
-        this.laserCooldown = 20;
+        this.laserCooldown = 10;
         this.laserCurrentCooldown = 0;
 
         this.score = 0;

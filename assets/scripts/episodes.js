@@ -1,12 +1,12 @@
 let e1m1 = new Room(
     './assets/resources/backgrounds/SpaceBackground-4.jpg',
     {
-        min: 80,
-        max: 240
+        min: 60,
+        max: 200
     },
     [new Light(new Vector(925, 525), 1200, 'rgba(250,250,255,0.04)')],
     {
-        min: 64,
+        min: 100,
         max: 1000
     },
     'e1m1',
@@ -17,12 +17,12 @@ let e1m1 = new Room(
 let e1m2 = new Room(
     './assets/resources/backgrounds/SpaceBackground-1.jpg',
     {
-        min: 60,
-        max: 240
+        min: 50,
+        max: 130
     },
     [new Light(new Vector(893, 524), 1200, 'rgba(250,50,50,0.04)'), new Light(new Vector(800, 345), 1200, 'rgba(50,50,250,0.04)')],
     {
-        min: 64,
+        min: 100,
         max: 1000
     },
     'e1m2',
@@ -33,12 +33,12 @@ let e1m2 = new Room(
 let e1m3 = new Room(
     './assets/resources/backgrounds/SpaceBackground-2.jpg',
     {
-        min: 50,
-        max: 200
+        min: 40,
+        max: 100
     },
     [new Light(new Vector(613, 1050), 1200, 'rgba(1,200,1,0.04)')],
     {
-        min: 64,
+        min: 100,
         max: 1000
     },
     'e1m3',
@@ -49,12 +49,12 @@ let e1m3 = new Room(
 let e1m4 = new Room(
     './assets/resources/backgrounds/SpaceBackground-3.jpg',
     {
-        min: 30,
-        max: 100
+        min: 10,
+        max: 50
     },
     [new Light(new Vector(425, 550), 1200, 'rgba(255,255,255,0.02)')],
     {
-        min: 64,
+        min: 100,
         max: 1000
     },
     'e1m4',
