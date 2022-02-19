@@ -22,6 +22,10 @@ class Player {
         this.laserCooldown = 10;
         this.laserCurrentCooldown = 0;
 
+        this.laserOverheat = 0;
+        this.laserOverheatMax = 20;
+        this.overheatedGuns = false;
+
         this.score = 0;
 
         this.useFriction = true;
@@ -33,7 +37,7 @@ class Player {
     }
 
     createTestLaser() {
-        if (this.laserCurrentCooldown > 0) return;
+        if (this.laserCurrentCooldown > 0 || this.overheatedGuns) return;
         
         {
             let audio = document.querySelector("#playerLaser");
@@ -44,6 +48,7 @@ class Player {
         if (this.score > 100) {
             this.lasers.push(new Laser('./assets/resources/misc/beams.png', [this.X + 28, this.Y - 16], [0, -15], 75, 'red'))
         } else this.lasers.push(new Laser('./assets/resources/misc/beams.png', [this.X + 28, this.Y - 16], [0, -20], 55))
+        this.laserOverheat += 2;
         this.laserCurrentCooldown = this.laserCooldown;
     }
 
@@ -55,6 +60,28 @@ class Player {
             audio.play();
         }
         $('#gameLives').text(this.lives -= Number(amount.toFixed(0)));
+    }
+
+    drawUI = (ctx) => {
+        spaceRender.context.font = '3em serif';
+        spaceRender.context.fillStyle = 'red';
+        spaceRender.context.fillText(`Overheat:`, 50, 50);
+        
+        spaceRender.context.fillStyle = 'grey';
+        spaceRender.context.fillRect(240, 15, this.laserOverheatMax * 5.75, 40);
+
+        
+        spaceRender.context.fillStyle = (this.overheatedGuns) ? 'red' : 'blue';
+        spaceRender.context.fillRect(250, 20, this.laserOverheat * 5, 30);
+    }
+
+    updateOverheatBar = () => {
+        return {
+            x: 50,
+            y: 50,
+            width: 10 * this.laserOverheat,
+            height: 10
+        }
     }
 
     update(enemyLasers) {
@@ -74,7 +101,11 @@ class Player {
             audio.play();
         }
 
+        this.laserOverheat = (this.laserOverheat - 0.1 <= 0) ? 0 : this.laserOverheat - 0.1;
         this.laserCurrentCooldown = (this.laserCurrentCooldown <= 0) ? 0 : this.laserCurrentCooldown - 1;
+
+        if (this.laserOverheat >= this.laserOverheatMax) this.overheatedGuns = true;
+        if (this.overheatedGuns && this.laserOverheat <= 0) this.overheatedGuns = false;
 
         if (this.keys[' ']) this.createTestLaser();
 

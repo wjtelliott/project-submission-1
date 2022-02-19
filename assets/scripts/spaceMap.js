@@ -154,5 +154,9 @@ class Room {
         particleController.draw();
 
         spaceRender.drawSerializedObject(this.player.serializeObject());
+
+
+        this.player.drawUI(spaceRender.context);
+        
     }
 }
