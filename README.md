@@ -34,3 +34,4 @@
 - Background Music: GosT - Genesee Avenue => https://www.youtube.com/watch?v=4AjoU95ofIg
 - https://opengameart.org/content/63-digital-sound-effects-lasers-phasers-space-etc => "Kenney.nl" or "www.kenney.nl", this is not mandatory.
 - https://opengameart.org/content/512-sound-effects-8-bit-style
+- https://opengameart.org/content/flare-effect-blender

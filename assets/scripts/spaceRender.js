@@ -11,6 +11,7 @@ const spaceRender = {
         if (sObject.sourceX !== undefined) {
             spaceRender.context.drawImage(sObject.image, sObject.sourceX, sObject.sourceY, sObject.sourceWidth,
                 sObject.sourceHeight, sObject.X, sObject.Y, sObject.sourceWidth, sObject.sourceHeight);
-        } else spaceRender.context.drawImage(sObject.image, sObject.X, sObject.Y);
+        } else if (sObject.width !== undefined) spaceRender.context.drawImage(sObject.image, sObject.X, sObject.Y, sObject.width, sObject.height)
+        else spaceRender.context.drawImage(sObject.image, sObject.X, sObject.Y);
     }
 }

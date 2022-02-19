@@ -1,6 +1,7 @@
 const PARTICLE_IMAGE_1 = Object.assign(new Image(), {src: './assets/resources/misc/explosion_01_strip13.png'});
 const PARTICLE_IMAGE_2 = Object.assign(new Image(), {src: './assets/resources/misc/explosion_02_strip13.png'});
 const PARTICLE_IMAGE_3 = Object.assign(new Image(), {src: './assets/resources/misc/explosion_03_strip13.png'});
+const PARTICLE_STARDUST = Object.assign(new Image(), {src: './assets/resources/misc/flare_0.png'});
 
 class Particle {
     constructor(sprite, width = 1, height = 1, animates = false) {
@@ -9,6 +10,10 @@ class Particle {
             case 1: this.image = PARTICLE_IMAGE_1; break;
             case 2: this.image = PARTICLE_IMAGE_2; break;
             case 3: this.image = PARTICLE_IMAGE_3; break;
+            case 4:
+                this.image = PARTICLE_STARDUST;
+                this.velocity = [0, 7]
+                break;
         }
         this.width = width;
         this.height = height;
@@ -21,20 +26,23 @@ class Particle {
             this.frame = 0;
             this.maxFrames = 13;//this.image.width / this.width;
             this.width = this.image.width / this.maxFrames;
+            this.light = new Light(new Vector(this.position[0], this.position[1]), 125, 'rgba(100, 0, 0, 0.2)');
+            this.light.isExplosive = true;
         }
-        this.light = new Light(new Vector(this.position[0], this.position[1]), 125, 'rgba(100, 0, 0, 0.2)');
-        this.light.isExplosive = true;
     }
 
     setPosition = newPos => {
         this.position = newPos;
-        this.light.position = new Vector(this.position[0] + 96, this.position[1] + 96);
-        lightController.lights.push(this.light);
+        if (this.light != null) {
+            this.light.position = new Vector(this.position[0] + 96, this.position[1] + 96);
+            lightController.lights.push(this.light);
+        }
     }
 
     kill() {
         this.removeFromMap = true;
-        lightController.lights = lightController.lights.filter(e => e !== this.light);
+        if (this.light != null)
+            lightController.lights = lightController.lights.filter(e => e !== this.light);
     }
 
     update() {
@@ -43,6 +51,8 @@ class Particle {
             this.frame = (this.animationCounter === 0) ? (this.frame + 1 > this.maxFrames) ? -1 : this.frame + 1 : this.frame;
         }
         if (this.frame === -1) this.kill();
+        if (this.position[1] > 800) this.kill();
+        if (this.velocity != null) this.position[1] += this.velocity[1];
     }
 
     serializeObject() {
@@ -58,6 +68,8 @@ class Particle {
             image: this.image,
             X: this.position[0],
             Y: this.position[1],
+            width: this.width,
+            height: this.height
         }
     }
 }

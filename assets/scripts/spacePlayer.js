@@ -3,7 +3,7 @@ const PLAYER_FRICTION = 0.2;
 const PLAYER_ACCEL = 0.4
 
 const PLAYZONE_X = [25, 1125]
-const PLAYZONE_Y = [420, 815]
+const PLAYZONE_Y = [420, 725]
 
 
 class Player {
@@ -52,27 +52,69 @@ class Player {
         this.laserCurrentCooldown = this.laserCooldown;
     }
 
-    addScore = toAdd => $('#gameScore').text(this.score += Number(toAdd.toFixed(0)));
+    addScore = toAdd => this.score += Number(toAdd.toFixed(0));
     hurt = amount => {
         {
             let audio = document.querySelector("#playerHurt");
             audio.volume = 0.1;
             audio.play();
         }
-        $('#gameLives').text(this.lives -= Number(amount.toFixed(0)));
+        this.lives-=amount;
     }
 
     drawUI = (ctx) => {
+
+
         spaceRender.context.font = '3em serif';
-        spaceRender.context.fillStyle = 'red';
-        spaceRender.context.fillText(`Overheat:`, 50, 50);
+
+
+        let uiInfo = {
+            overheatTextX: 20,
+            overheatTextY: 830,
+            overheatTextColor: 'red',
+            overheatbgRectX: 220,
+            overheatbgRectY: 795,
+            overheatbgWidth: this.laserOverheatMax * 5.75,
+            overheatbgHeight: 40,
+            overheatbgColor: 'grey',
+            overheatRectX: 230,
+            overheatRectY: 800,
+            overheatRectWidth: this.laserOverheat * 5,
+            overheatRectHeight: 30,
+            overheatRectColor: 'blue',
+            overheatRectColor2: 'red',
+
+            scoreTextX: 600,
+            scoreTextY: 830,
+
+            livesTextX: 400,
+            livesTextY: 830
+        }
+
+
+        spaceRender.context.fillStyle = 'black';
+        spaceRender.context.fillRect(0, uiInfo.overheatbgRectY - 5, 1200, 300);
+
+
+        // Draw overheat
+        spaceRender.context.fillStyle = uiInfo.overheatTextColor;
+        spaceRender.context.fillText(`Overheat:`, uiInfo.overheatTextX, uiInfo.overheatTextY);
         
         spaceRender.context.fillStyle = 'grey';
-        spaceRender.context.fillRect(240, 15, this.laserOverheatMax * 5.75, 40);
+        spaceRender.context.fillRect(uiInfo.overheatbgRectX, uiInfo.overheatbgRectY, uiInfo.overheatbgWidth, uiInfo.overheatbgHeight);
 
         
         spaceRender.context.fillStyle = (this.overheatedGuns) ? 'red' : 'blue';
-        spaceRender.context.fillRect(250, 20, this.laserOverheat * 5, 30);
+        spaceRender.context.fillRect(uiInfo.overheatRectX, uiInfo.overheatRectY, uiInfo.overheatRectWidth, uiInfo.overheatRectHeight);
+
+
+        // Draw score
+        spaceRender.context.fillStyle = uiInfo.overheatTextColor;
+        spaceRender.context.fillText(`Score: ${this.score}`, uiInfo.scoreTextX, uiInfo.scoreTextY);
+
+        
+        spaceRender.context.fillStyle = uiInfo.overheatTextColor;
+        spaceRender.context.fillText(`Lives: ${this.lives}`, uiInfo.livesTextX, uiInfo.livesTextY);
     }
 
     updateOverheatBar = () => {

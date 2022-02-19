@@ -80,6 +80,16 @@ class Room {
         particleController.particles = [];
     }
 
+    addNewStarEffect = () => {
+
+        if (Math.floor(Math.random() * 50) !== 1) return;
+
+        let newPart = new Particle(4, 32, 32, false);
+        newPart.setPosition([Math.max(32, Math.floor(Math.random() * 1200)), 0])
+        particleController.particles.push(newPart);
+
+    }
+
 
     toString = () => this.mapName;
 
@@ -100,7 +110,8 @@ class Room {
             this.spawnNewEnemy();
         }
 
-        
+    
+        this.addNewStarEffect();        
 
 
         while (this.player.lasers.length > 0) this.lasers.push(this.player.lasers.pop())
