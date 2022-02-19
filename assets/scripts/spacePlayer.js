@@ -37,7 +37,7 @@ class Player {
         
         {
             let audio = document.querySelector("#playerLaser");
-            audio.volume = 0.3;
+            audio.volume = 0.1;
             audio.currentTime = 0;
             audio.play();
         }
@@ -48,9 +48,16 @@ class Player {
     }
 
     addScore = toAdd => $('#gameScore').text(this.score += Number(toAdd.toFixed(0)));
-    hurt = amount => $('#gameLives').text(this.lives -= Number(amount.toFixed(0)));
+    hurt = amount => {
+        {
+            let audio = document.querySelector("#playerHurt");
+            audio.volume = 0.1;
+            audio.play();
+        }
+        $('#gameLives').text(this.lives -= Number(amount.toFixed(0)));
+    }
 
-    update() {
+    update(enemyLasers) {
 
 
         if (this.lives <= 0) episodeController.stopGame("You lose");
@@ -77,7 +84,26 @@ class Player {
         this.X += this.velocity.X;
         this.Y += this.velocity.Y;
 
+        this.checkCollision(enemyLasers);
+
         this.clampPlayerInPlayerzone();
+    }
+
+    getDistance(objectPosition) {
+        // objectPosition will always be X as [0] and Y as [1], same as this.position / this.velocity
+        if (objectPosition === null || this.position === null) return Infinity;
+        let p1 = objectPosition[0] - (this.X + 32);
+        let p2 = objectPosition[1] - (this.Y + 32);
+        return (p1 * p1) + (p2 * p2);
+    }
+
+    checkCollision(lasers, collisionDistance = 2500) {
+        lasers.forEach(e => {
+            if (this.getDistance(e.position) < collisionDistance) {
+                this.hurt(1);
+                e.removeFromMap = true;
+            }
+        });
     }
 
     clampPlayerInPlayerzone() {

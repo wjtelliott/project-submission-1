@@ -91,7 +91,7 @@ class Room {
             this.currentFormation = (this.currentFormation + 1 >= this.formationPattern.length) ? 0 : this.currentFormation + 1;
         }
 
-        this.player.update();
+        this.player.update(this.enemyLasers);
 
         this.newEnemyCounterCurrent++;
         if (this.newEnemyCounterCurrent > this.newEnemySpawnTimer) {
@@ -147,6 +147,7 @@ class Room {
 
         this.lasers.forEach(e => spaceRender.drawSerializedObject(e.serializeObject()));
 
+        this.enemyLasers.forEach(e => spaceRender.drawSerializedObject(e.serializeObject()));
 
         this.enemies.forEach(e=>spaceRender.drawSerializedObject(e.serializeObject()));
 

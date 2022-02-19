@@ -5,7 +5,7 @@ class spaceEnemy {
         this.position = pos;
         this.velocity = vel;
         this.removeFromMap = false;
-        this.scoreWorth = this.velocity[1];
+        this.scoreWorth = this.velocity[1] * 3;
         this.hurtPlayer = false;
         this.inFormation = false;
         this.laser = null;
@@ -23,7 +23,7 @@ class spaceEnemy {
         this.position[0] += this.velocity[0];
         this.position[1] += this.velocity[1];
 
-        if (Math.floor(Math.random() * 3) === 1) {
+        if (Math.floor(Math.random() * 180) === 1) {
             this.laser = new Laser('./assets/resources/misc/beams.png', [this.position[0] + 28, this.position[1] + 16], [0, 10], 55)
         }
 
@@ -43,6 +43,12 @@ class spaceEnemy {
     kill(hurtPlayer) {
         this.hurtPlayer = hurtPlayer ?? false;
         this.removeFromMap = true;
+        {
+            let audio = document.querySelector(`#enemyExplosion${Math.floor(Math.random() * 3) + 1}`);
+            audio.volume = 0.1;
+            audio.currentTime = 0;
+            audio.play();
+        }
     }
 
     checkCollision(lasers, playerPosition, collisionDistance = 2500) {
