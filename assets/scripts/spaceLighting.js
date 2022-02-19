@@ -42,7 +42,7 @@ const lightUtil = {
         // a2 = b2 + c2
         let dist = Math.sqrt((y * y) + (x * x));
 
-        // We found a closer object, change properties and return
+        // Light shines farther than the distance to this object
         if (light.radius >= dist) {
             let radians = angle * (Math.PI / 180);
             let pointPos = new Vector(light.position.x, light.position.y);
@@ -56,7 +56,6 @@ const lightUtil = {
             ) {
                 if (start || dist < shortest) {
                     // we found a new object with shorter distance
-
                     // I don't like how the original edits params as variables
                     start = false;
                     shortest = dist;

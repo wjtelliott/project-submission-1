@@ -16,6 +16,7 @@ class Room {
         // Laser and enemies
         this.lasers = [];
         this.enemies = [];
+        this.enemyLasers = [];
 
         // Enemy spawn rates & positioning
         this.newEnemyCounterMax = enemySpawnRates.max;
@@ -31,6 +32,7 @@ class Room {
 
         this.mapName = name;
 
+        
 
         this.formationPattern = [
             [2, 0],
@@ -54,8 +56,8 @@ class Room {
         (this.mapDialogText != null) ? this.mapDialog(this.mapDialogText) : null;
     }
 
-    updateLasers() {
-        return this.lasers.filter( e => {
+    updateLasers(lasersArr) {
+        return lasersArr.filter( e => {
             e.update();
             if (e.lifespan < 0 || e.removeFromMap) {
                 e.kill();
@@ -103,7 +105,7 @@ class Room {
 
         while (this.player.lasers.length > 0) this.lasers.push(this.player.lasers.pop())
 
-        this.lasers = this.updateLasers();
+        this.lasers = this.updateLasers(this.lasers);
         
         this.enemies = this.enemies.filter(e => {
             e.update(this.lasers, [this.player.X, this.player.Y], this.formationPattern[this.currentFormation]);
@@ -111,9 +113,16 @@ class Room {
                 e.hurtPlayer ? this.player.hurt(1) : this.player.addScore(e.scoreWorth);
                 this.addNewParticle([e.position[0] - 70, e.position[1] - 70]);
                 return false;
-            };
+            } else {
+                if (e.laser !== null) {
+                    this.enemyLasers.push(e.laser);
+                    e.laser = null;
+                }
+            }
             return true;
         });
+
+        this.enemyLasers = this.updateLasers(this.enemyLasers);
 
         particleController.update();
 

@@ -54,6 +54,11 @@ class Player {
         if (this.keys['s']) this.velocity.Y+=PLAYER_ACCEL;
         if (this.keys['w']) this.velocity.Y-=PLAYER_ACCEL;
 
+        {
+            let audio = document.querySelector("#backgroundAudio");
+            audio.volume = 0.1;
+            audio.play();
+        }
 
         this.laserCurrentCooldown = (this.laserCurrentCooldown <= 0) ? 0 : this.laserCurrentCooldown - 1;
 

@@ -8,6 +8,7 @@ class spaceEnemy {
         this.scoreWorth = this.velocity[1] * 10;
         this.hurtPlayer = false;
         this.inFormation = false;
+        this.laser = null;
     }
 
     update(lasers, playerPosition, formationVelocity) {
@@ -21,6 +22,10 @@ class spaceEnemy {
 
         this.position[0] += this.velocity[0];
         this.position[1] += this.velocity[1];
+
+        if (Math.floor(Math.random() * 3) === 1) {
+            this.laser = new Laser('./assets/resources/misc/beams.png', [this.position[0] + 28, this.position[1] + 16], [0, 10], 55)
+        }
 
         this.checkCollision(lasers, playerPosition);
 
@@ -40,14 +45,14 @@ class spaceEnemy {
         this.removeFromMap = true;
     }
 
-    checkCollision(lasers, playerPosition) {
+    checkCollision(lasers, playerPosition, collisionDistance = 2500) {
         lasers.forEach(e => {
-            if (this.getDistance(e.position) < 2500) {
+            if (this.getDistance(e.position) < collisionDistance) {
                 this.kill();
                 e.removeFromMap = (e.laserType !== 'red');
             }
         });
-        if (this.getDistance(playerPosition) < 2500) this.kill(true);
+        if (this.getDistance(playerPosition) < collisionDistance) this.kill(true);
     }
 
     serializeObject() {
