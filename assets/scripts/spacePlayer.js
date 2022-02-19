@@ -34,6 +34,13 @@ class Player {
 
     createTestLaser() {
         if (this.laserCurrentCooldown > 0) return;
+        
+        {
+            let audio = document.querySelector("#playerLaser");
+            audio.volume = 0.3;
+            audio.currentTime = 0;
+            audio.play();
+        }
         if (this.score > 100) {
             this.lasers.push(new Laser('./assets/resources/misc/beams.png', [this.X + 28, this.Y - 16], [0, -15], 75, 'red'))
         } else this.lasers.push(new Laser('./assets/resources/misc/beams.png', [this.X + 28, this.Y - 16], [0, -20], 55))

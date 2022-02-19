@@ -5,7 +5,7 @@ class spaceEnemy {
         this.position = pos;
         this.velocity = vel;
         this.removeFromMap = false;
-        this.scoreWorth = this.velocity[1] * 10;
+        this.scoreWorth = this.velocity[1];
         this.hurtPlayer = false;
         this.inFormation = false;
         this.laser = null;
