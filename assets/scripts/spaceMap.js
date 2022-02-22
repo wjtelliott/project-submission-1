@@ -1,5 +1,5 @@
 class Room {
-    constructor(backgroundImagePath, enemySpawnRates, startingLights, enemySpawnPos, name, friction, dialog) {
+    constructor(backgroundImagePath, enemySpawnRates, startingLights, enemySpawnPos, name, friction, dialog, asteroidSpawn) {
 
         // Create our player
         this.player = new Player();
@@ -32,7 +32,7 @@ class Room {
 
         this.mapName = name;
 
-        this.asteroids = [new spaceAsteroid('./assets/resources/player/ships_asteroids.png', [400, 400], [0, 1])];
+        this.asteroids = [];
 
         this.formationPattern = [
             [2, 0],
@@ -43,10 +43,13 @@ class Room {
         this.formationCounterMax = 50;
         this.formationCounter = 0;
         this.currentFormation = 0;
+
+        this.asteroidSpawnRate = asteroidSpawn
     }
 
 
     mapDialog = text => $('#gameInfo').text(text);
+    toString = () => this.mapName;
 
     init() {
         this.isLoaded = true;
@@ -56,7 +59,9 @@ class Room {
         (this.mapDialogText != null) ? this.mapDialog(this.mapDialogText) : null;
     }
 
+    
     updateLasers(lasersArr) {
+        // We can use this for any array of elements that use removeFromMap or lifespan
         return lasersArr.filter( e => {
             e.update();
             if (e.lifespan < 0 || e.removeFromMap) {
@@ -67,6 +72,8 @@ class Room {
     }
 
     spawnNewEnemy = () => this.enemies.push(new spaceEnemy('./assets/resources/player/shipsall.gif', [Math.random() * this.enemySpawnPositions.max + this.enemySpawnPositions.min, -64], [0, Math.min(2, Math.random() * 4)]));
+
+    spawnNewAsteroid = () => this.asteroids.push(new spaceAsteroid('./assets/resources/player/ships_asteroids.png', [Math.floor(Math.random() * 800) + 100, Math.floor(Math.random() * 800) + 100], 2.5));
 
     addNewParticle = (location) => {
         let newPart = new Particle(Math.max(1, Math.floor(Math.random() * 4)), 196, 190, true);
@@ -82,7 +89,7 @@ class Room {
 
     addNewStarEffect = () => {
 
-        if (Math.floor(Math.random() * 50) !== 1) return;
+        if (Math.floor(Math.random() * this.asteroidSpawnRate) !== 1) return;
 
         let newPart = new Particle(4, 32, 32, false);
         newPart.setPosition([Math.max(32, Math.floor(Math.random() * 1200)), 0])
@@ -91,7 +98,6 @@ class Room {
     }
 
 
-    toString = () => this.mapName;
 
     update() {
 
@@ -110,7 +116,7 @@ class Room {
             this.spawnNewEnemy();
         }
 
-        this.asteroids.forEach( e => e.update());
+        if (Math.floor(Math.random() * 70) === 1) this.spawnNewAsteroid();
     
         this.addNewStarEffect();        
 
@@ -133,6 +139,15 @@ class Room {
             }
             return true;
         });
+
+        this.asteroids.forEach( e => {
+
+            e.update(this.lasers, [this.player.X, this.player.Y])
+            e.hurtPlayer ? this.player.hurt(1) : null;
+
+        });
+        // We can use updateLasers for this array as well.
+        this.asteroids = this.updateLasers(this.asteroids);
 
         this.enemyLasers = this.updateLasers(this.enemyLasers);
 

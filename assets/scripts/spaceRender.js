@@ -16,11 +16,17 @@ const spaceRender = {
          */
         spaceRender.context.save();
         spaceRender.context.translate(sObject.X + sObject.sourceWidth / 2, sObject.Y + sObject.sourceHeight / 2);
-        //spaceRender.context.translate(spaceRender.canvasSpace.width / 2, spaceRender.canvasSpace.height / 2);
         spaceRender.context.rotate(sObject.rotate * Math.PI / 180);
-        //const {rotate, ...newObject} = sObject;
-        spaceRender.context.drawImage(sObject.image, sObject.sourceX, sObject.sourceY, sObject.sourceWidth,
-            sObject.sourceHeight, -(sObject.sourceWidth / 2), -(sObject.sourceHeight / 2), sObject.sourceWidth, sObject.sourceHeight);
+
+        // Create new object params, revoke rotation
+        const {rotate, ...newObject} = sObject;
+
+        // We move X & Y to have the object origin on the 0,0 location of our canvas
+        newObject.X = -(newObject.sourceWidth / 2);
+        newObject.Y = -(newObject.sourceHeight / 2);
+
+        // Draw our new object with new params
+        spaceRender.drawSerializedObject(newObject);
         spaceRender.context.restore();
     },
     drawSerializedObject: sObject => {
