@@ -32,7 +32,7 @@ class Room {
 
         this.mapName = name;
 
-        
+        this.asteroids = [new spaceAsteroid('./assets/resources/player/ships_asteroids.png', [400, 400], [0, 1])];
 
         this.formationPattern = [
             [2, 0],
@@ -110,6 +110,7 @@ class Room {
             this.spawnNewEnemy();
         }
 
+        this.asteroids.forEach( e => e.update());
     
         this.addNewStarEffect();        
 
@@ -163,6 +164,8 @@ class Room {
         this.enemies.forEach(e=>spaceRender.drawSerializedObject(e.serializeObject()));
 
         particleController.draw();
+
+        this.asteroids.forEach( e=> spaceRender.drawSerializedObject(e.serializeObject()));
 
         spaceRender.drawSerializedObject(this.player.serializeObject());
 

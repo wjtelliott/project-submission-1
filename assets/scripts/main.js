@@ -2,6 +2,7 @@ let scriptLoader = {
     scriptList: [
         './assets/scripts/episodes.js',
         './assets/scripts/spaceMap.js',
+        './assets/scripts/spaceAsteroid.js',
         './assets/scripts/spaceParticle.js',
         './assets/scripts/spaceLighting.js',
         './assets/scripts/spacePlayer.js',
