@@ -45,6 +45,8 @@ class Room {
         this.currentFormation = 0;
 
         this.asteroidSpawnRate = asteroidSpawn
+
+        this.backgroundOffset = 0;
     }
 
 
@@ -101,6 +103,7 @@ class Room {
 
     update() {
 
+        this.backgroundOffset = (this.backgroundOffset + 1 > this.backgroundImage.height) ? 0 : this.backgroundOffset + 1;
 
         this.formationCounter = (this.formationCounter + 1 > this.formationCounterMax) ? 0 : this.formationCounter + 1;
         if (this.formationCounter === 0) {
@@ -140,6 +143,12 @@ class Room {
             return true;
         });
 
+        // lightController.lights.forEach( e => {
+        //     if (e.isMapLight) {
+        //         e.position.y = this.backgroundOffset;
+        //     }
+        // })
+
         this.asteroids.forEach( e => {
 
             e.update(this.lasers, [this.player.X, this.player.Y])
@@ -166,7 +175,12 @@ class Room {
         spaceRender.drawSerializedObject({
             image: this.backgroundImage,
             X: 0,
-            Y: 0
+            Y: this.backgroundOffset
+        });
+        spaceRender.drawSerializedObject({
+            image: this.backgroundImage,
+            X: 0,
+            Y: this.backgroundOffset - this.backgroundImage.height
         });
 
         lightController.draw(spaceRender.context);

@@ -1,10 +1,11 @@
 class Light {
-    constructor(pos, rad, color) {
+    constructor(pos, rad, color, mapLight = false) {
         this.position = pos;
         this.radius = rad;
         this.color = color;
         this.angleSpread = 360;
         this.angle = 90;
+        this.isMapLight = mapLight;
     }
 
 }
