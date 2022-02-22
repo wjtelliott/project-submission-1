@@ -13,7 +13,10 @@ let e1m1 = new Room(
     true, // Player friction enabled
     
     // Map H3 tag description
-    `Fight your way towards the alien planet! Use W, A, S, & D to fly your ship. Use Spacebar to shoot at oncoming enemies. Don't let them get past you!`
+    `Fight your way towards the alien planet! Use W, A, S, & D to fly your ship. Use Spacebar to shoot at oncoming enemies. Don't let them get past you!`,
+
+    //Asteroid spawn rate, higher = slower
+    240
 );
 
 let e1m2 = new Room(
@@ -29,7 +32,8 @@ let e1m2 = new Room(
     },
     'e1m2',
     true,
-    'You have lost track of your home star, but see enemy fighters in the distance.'
+    'You have lost track of your home star, but see enemy fighters in the distance.',
+    240
 );
 
 let e1m3 = new Room(
@@ -45,7 +49,8 @@ let e1m3 = new Room(
     },
     'e1m3',
     false,
-    'Your ship\'s autodeceleration correction controller has taken damage! You must control your own velocity manually.'
+    'Your ship\'s autodeceleration correction controller has taken damage! You must control your own velocity manually.',
+    100
 );
 
 let e1m4 = new Room(
@@ -61,7 +66,8 @@ let e1m4 = new Room(
     },
     'e1m4',
     false,
-    'Here is your last stand towards the enemy planet. Fight this wave to save your home world.'
+    'Here is your last stand towards the enemy planet. Fight this wave to save your home world.',
+    70
 );
 
 let episodeController = {
