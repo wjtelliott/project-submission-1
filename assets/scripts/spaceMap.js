@@ -47,6 +47,7 @@ class Room {
         this.asteroidSpawnRate = asteroidSpawn
 
         this.backgroundOffset = 0;
+        this.disableLight = false;
     }
 
 
@@ -183,7 +184,7 @@ class Room {
             Y: this.backgroundOffset - this.backgroundImage.height
         });
 
-        lightController.draw(spaceRender.context);
+        if (!this.disableLight) lightController.draw(spaceRender.context);
 
 
         this.lasers.forEach(e => spaceRender.drawSerializedObject(e.serializeObject()));

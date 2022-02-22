@@ -73,10 +73,15 @@ let e1m4 = new Room(
 let episodeController = {
     startDemo: 0,
     currentMap: 0,
+    frameStutters: 0,
     startGame: () => {
         episodeController.startDemo = setInterval(() => {
             episodeController.currentMap.isLoaded ? null : episodeController?.currentMap?.init?.();
+            let start = new Date();
             episodeController.currentMap.update();
+            let total = new Date().getTime() - start.getTime();
+            if (Number(total) >= 10) episodeController.frameStutters++;
+            if (episodeController.frameStutters > 20) episodeController.currentMap.disableLight = true;
         }, 16);
     },
     stopGame: (text) => {
@@ -86,6 +91,7 @@ let episodeController = {
     },
     nextMap: (map) => {
         episodeController?.currentMap?.kill?.();
+        episodeController.frameStutters = 0;
         if (map == null) {
             switch (episodeController.currentMap.toString()) {
                 default:
