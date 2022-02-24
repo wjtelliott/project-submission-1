@@ -1,4 +1,4 @@
-let e1m1 = new Room(
+const e1m1 = () => new Room(
     './assets/resources/backgrounds/SpaceBackground-4.jpg', // Background image
     {
         min: 60, // Enemy min spawn rate
@@ -19,7 +19,7 @@ let e1m1 = new Room(
     240
 );
 
-let e1m2 = new Room(
+const e1m2 = () => new Room(
     './assets/resources/backgrounds/SpaceBackground-1.jpg',
     {
         min: 50,
@@ -36,7 +36,7 @@ let e1m2 = new Room(
     240
 );
 
-let e1m3 = new Room(
+const e1m3 = () => new Room(
     './assets/resources/backgrounds/SpaceBackground-2.jpg',
     {
         min: 40,
@@ -53,7 +53,7 @@ let e1m3 = new Room(
     100
 );
 
-let e1m4 = new Room(
+const e1m4 = () => new Room(
     './assets/resources/backgrounds/SpaceBackground-3.jpg',
     {
         min: 10,
@@ -76,9 +76,9 @@ let episodeController = {
     frameStutters: 0,
     startGame: () => {
         episodeController.startDemo = setInterval(() => {
-            episodeController.currentMap.isLoaded ? null : episodeController?.currentMap?.init?.();
+            episodeController?.currentMap?.isLoaded ? null : episodeController?.currentMap?.init?.();
             let start = new Date();
-            episodeController.currentMap.update();
+            episodeController?.currentMap?.update();
             let total = new Date().getTime() - start.getTime();
             if (Number(total) >= 10) episodeController.frameStutters++;
             if (episodeController.frameStutters > 20) episodeController.currentMap.disableLight = true;
@@ -95,13 +95,13 @@ let episodeController = {
         if (map == null) {
             switch (episodeController.currentMap.toString()) {
                 default:
-                case 'e1m1': episodeController.currentMap = e1m2; return;
-                case 'e1m2': episodeController.currentMap = e1m3; return;
-                case 'e1m3': episodeController.currentMap = e1m4; return;
+                case 'e1m1': episodeController.currentMap = e1m2(); return;
+                case 'e1m2': episodeController.currentMap = e1m3(); return;
+                case 'e1m3': episodeController.currentMap = e1m4(); return;
                 case 'e1m4': episodeController.stopGame('You win!');
             }
         } else episodeController.currentMap = map;
     }
 }
-episodeController.nextMap(e1m1);
+episodeController.nextMap(e1m1());
 episodeController.startGame();

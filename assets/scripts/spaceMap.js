@@ -88,6 +88,7 @@ class Room {
         this.enemies = [];
         lightController.lights = [];
         particleController.particles = [];
+        this.isLoaded = false;
     }
 
     addNewStarEffect = () => {
