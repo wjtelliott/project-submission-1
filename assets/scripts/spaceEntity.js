@@ -51,6 +51,7 @@ class spaceEntity {
     }
 
     clampVelocity(maxValue = PLAYER_MAX_SPEED) {
+        // Use Math.abs instead of checking if negative each time?
         this.velocity.X = (this.velocity.X > 0) ?
             (this.velocity.X > maxValue) ? maxValue : this.velocity.X
             :
@@ -62,6 +63,7 @@ class spaceEntity {
     }
 
     friction(frictionValue = PLAYER_FRICTION) {
+        // We cant subtract friction value every time, it will send us the other direction
         this.velocity.X = (this.velocity.X > 0) ?
             (this.velocity.X - frictionValue < 0) ? 0 : this.velocity.X - frictionValue
             :
@@ -76,6 +78,8 @@ class spaceEntity {
      * Object & light serialization
      */
     serializeObject() {
+
+        // This needs to be cleaned. Too many copy/paste instances
         return (this.isAnimated) ? {
             image: this.image,
             X: this.position[0],
@@ -148,20 +152,30 @@ class spaceEntity {
      */
 
     normalizeVector(vector2) {
-        // fast inverse needed?
+        // Inverse the hypotenuse length to get vector length
         const length = 1 / Math.sqrt((vector2[0] * vector2[0]) + (vector2[1] * vector2[1]));
-        return [vector2[0] *= length, vector2[1] *= length];
+
+
+        // Maximum vector value will be 1 after this
+        // Multiply result by speed velocity vector after this
+        return [vector2[0] * length, vector2[1] * length];
     }
 
     getDistance(objectPosition, offset) {
         // objectPosition will always be X as [0] and Y as [1], same as this.position / this.velocity
         if (objectPosition === null || this.position === null) return Infinity;
+        
+        // TODO: Uniform these positioning types
         let p1 = objectPosition[0] - ((this.position?.[0] ?? this.X) + offset);
         let p2 = objectPosition[1] - ((this.position?.[1] ?? this.Y) + offset);
+
+        // Don't return as sqrt here... takes too long.
+        // Test this result against distance squared instead. Faster.
         return (p1 * p1) + (p2 * p2);
     }
 
     getTargetVelocity(currentPosition, targetPosition) {
+        // Get delta of positioning for velocity vector. Normalize for incrementing
         let deltaX = targetPosition[0] - currentPosition[0];
         let deltaY = targetPosition[1] - currentPosition[1];
         return this.normalizeVector([deltaX, deltaY]);

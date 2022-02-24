@@ -10,7 +10,7 @@ const e1m1 = () => new spaceRoom(
         max: 1000 // Enemy max spawn X coord
     },
     'e1m1', // map name
-    true, // Player friction enabled
+    true, // Player friction enabled?
     
     // Map H3 tag description
     `Fight your way towards the alien planet! Use W, A, S, & D to fly your ship. Use Spacebar to shoot at oncoming enemies. Don't let them get past you!`,
