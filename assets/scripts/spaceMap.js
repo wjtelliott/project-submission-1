@@ -108,9 +108,10 @@ class Room {
         this.backgroundOffset = (this.backgroundOffset + 1 > this.backgroundImage.height) ? 0 : this.backgroundOffset + 1;
 
         this.formationCounter = (this.formationCounter + 1 > this.formationCounterMax) ? 0 : this.formationCounter + 1;
-        if (this.formationCounter === 0) {
+
+        if (this.formationCounter === 0)
             this.currentFormation = (this.currentFormation + 1 >= this.formationPattern.length) ? 0 : this.currentFormation + 1;
-        }
+        
 
         this.player.update(this.enemyLasers);
 
@@ -145,6 +146,7 @@ class Room {
             return true;
         });
 
+        // Move map lights with background... ehhh don't like this approach.
         // lightController.lights.forEach( e => {
         //     if (e.isMapLight) {
         //         e.position.y = this.backgroundOffset;
@@ -157,6 +159,8 @@ class Room {
             e.hurtPlayer ? this.player.hurt(1) : null;
 
         });
+
+
         // We can use updateLasers for this array as well.
         this.asteroids = this.updateLasers(this.asteroids);
 
@@ -169,8 +173,11 @@ class Room {
 
     
 
+
     draw() {
 
+
+        // We need to batch these!!!
         spaceRender.clearDrawing();
 
 
