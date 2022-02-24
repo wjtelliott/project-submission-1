@@ -11,6 +11,8 @@ class spaceEnemy extends spaceEntity{
         this.inFormation = false;
         this.laser = null;
 
+        this.fireRate = 240;
+
         this.sourceWidth = this.sourceHeight = 64;
         this.sourceX = this.sourceY = 128;
     }
@@ -27,7 +29,7 @@ class spaceEnemy extends spaceEntity{
         this.position[0] += this.velocity[0];
         this.position[1] += this.velocity[1];
 
-        if (this.getRandom(0, 70) === 1)
+        if (this.getRandom(0, this.fireRate) === 1)
             this.laser = new Laser('./assets/resources/misc/beams.png', [this.position[0] + 28, this.position[1] + 16], [0, 10], 55)
 
         this.checkCollision(lasers, playerPosition);

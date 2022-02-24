@@ -17,6 +17,16 @@ h3 {
     font-size: 2em;
 }
 
+#playAgain {
+    font-size: 3em;
+    border-radius: 25px;
+    font-family: cursive;
+    padding: 0.25em 1em;
+    color: blue;
+    background-color: #d21e64;
+    font-weight: 800;
+}
+
 #gameSpace {
     display: block;
     margin: auto;

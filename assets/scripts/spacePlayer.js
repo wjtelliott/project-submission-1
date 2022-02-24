@@ -137,7 +137,7 @@ class Player extends spaceEntity {
 
 
         // Win / lose conditions
-        if (this.lives <= 0) episodeController.stopGame("You lose");
+        if (this.lives <= 0) episodeController.stopGame(false);
         if (this.score > 200) episodeController.nextMap();
 
         // Movement keys

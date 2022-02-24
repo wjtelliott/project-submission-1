@@ -83,11 +83,14 @@ let episodeController = {
             if (Number(total) >= 10) episodeController.frameStutters++;
             if (episodeController.frameStutters > 20) episodeController.currentMap.disableLight = true;
         }, 16);
+        $('#playAgain').hide();
     },
-    stopGame: (text) => {
+    stopGame: (win) => {
         //$('h3').text(text);
         //$('h4').text(text.includes('Win') ? 'Congratualations!' : '');
         clearInterval(episodeController.startDemo);
+        $('#playAgain').show();
+        $('#playAgain').text(win ? 'You won! :) - Play again?' : 'You lost! :( - Play again?');
     },
     nextMap: (map) => {
         episodeController?.currentMap?.kill?.();
@@ -98,7 +101,7 @@ let episodeController = {
                 case 'e1m1': episodeController.currentMap = e1m2(); return;
                 case 'e1m2': episodeController.currentMap = e1m3(); return;
                 case 'e1m3': episodeController.currentMap = e1m4(); return;
-                case 'e1m4': episodeController.stopGame('You win!');
+                case 'e1m4': episodeController.stopGame(true);
             }
         } else episodeController.currentMap = map;
     }
