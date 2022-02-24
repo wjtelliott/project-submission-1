@@ -1,10 +1,10 @@
-const e1m1 = () => new Room(
+const e1m1 = () => new spaceRoom(
     './assets/resources/backgrounds/SpaceBackground-4.jpg', // Background image
     {
         min: 60, // Enemy min spawn rate
         max: 200 // Enemy max spawn rate
     },
-    [new Light(new Vector(925, 525), 1100, 'rgba(250,250,255,0.04)', true)], // Initial lights
+    [new spaceLight(new Vector(925, 525), 1100, 'rgba(250,250,255,0.04)', true)], // Initial lights
     {
         min: 100, // Enemy min spawn X coord
         max: 1000 // Enemy max spawn X coord
@@ -19,13 +19,13 @@ const e1m1 = () => new Room(
     240
 );
 
-const e1m2 = () => new Room(
+const e1m2 = () => new spaceRoom(
     './assets/resources/backgrounds/SpaceBackground-1.jpg',
     {
         min: 50,
         max: 130
     },
-    [new Light(new Vector(893, 524), 1100, 'rgba(250,50,50,0.04)', true), new Light(new Vector(800, 345), 1200, 'rgba(50,50,250,0.04)', true)],
+    [new spaceLight(new Vector(893, 524), 1100, 'rgba(250,50,50,0.04)', true), new spaceLight(new Vector(800, 345), 1200, 'rgba(50,50,250,0.04)', true)],
     {
         min: 100,
         max: 1000
@@ -36,13 +36,13 @@ const e1m2 = () => new Room(
     240
 );
 
-const e1m3 = () => new Room(
+const e1m3 = () => new spaceRoom(
     './assets/resources/backgrounds/SpaceBackground-2.jpg',
     {
         min: 40,
         max: 100
     },
-    [new Light(new Vector(613, 1050), 1100, 'rgba(1,200,1,0.04)', true)],
+    [new spaceLight(new Vector(613, 1050), 1100, 'rgba(1,200,1,0.04)', true)],
     {
         min: 100,
         max: 1000
@@ -53,13 +53,13 @@ const e1m3 = () => new Room(
     100
 );
 
-const e1m4 = () => new Room(
+const e1m4 = () => new spaceRoom(
     './assets/resources/backgrounds/SpaceBackground-3.jpg',
     {
         min: 10,
         max: 50
     },
-    [new Light(new Vector(425, 550), 1100, 'rgba(255,255,255,0.02)', true)],
+    [new spaceLight(new Vector(425, 550), 1100, 'rgba(255,255,255,0.02)', true)],
     {
         min: 100,
         max: 1000

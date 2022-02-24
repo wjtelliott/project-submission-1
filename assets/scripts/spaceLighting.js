@@ -1,4 +1,4 @@
-class Light {
+class spaceLight {
     constructor(pos, rad, color, mapLight = false) {
         this.position = pos;
         this.radius = rad;

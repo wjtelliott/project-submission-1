@@ -1,8 +1,8 @@
-class Room {
+class spaceRoom {
     constructor(backgroundImagePath, enemySpawnRates, startingLights, enemySpawnPos, name, friction, dialog, asteroidSpawn) {
 
         // Create our player
-        this.player = new Player();
+        this.player = new spacePlayer();
 
         this.mapDialogText = dialog;
 

@@ -1,7 +1,7 @@
 const LASERS_HAVE_LIGHTS = false;
 
 
-class Laser extends spaceEntity {
+class spaceLaser extends spaceEntity {
     constructor(src, pos = [0, 0], vel = [0, 0], life = 10, lType = 'default') {
         super();
         this.image = new Image();
@@ -15,8 +15,8 @@ class Laser extends spaceEntity {
 
         // False for saving computation time
         if (LASERS_HAVE_LIGHTS) {
-            if (this.laserType === 'red') this.light = new Light(new Vector(this.position[0] + 21, this.position[1] + 50), 200, 'rgba(250,1,1,.04)');
-            else this.light = new Light(new Vector(this.position[0] + 9, this.position[1] + 16), 200, 'rgba(250,1,250,.02)');
+            if (this.laserType === 'red') this.light = new spaceLight(new Vector(this.position[0] + 21, this.position[1] + 50), 200, 'rgba(250,1,1,.04)');
+            else this.light = new spaceLight(new Vector(this.position[0] + 9, this.position[1] + 16), 200, 'rgba(250,1,250,.02)');
             lightController.lights.push(this.light);
         }
 

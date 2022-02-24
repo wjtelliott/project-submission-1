@@ -6,7 +6,7 @@ const PLAYZONE_X = [25, 1125]
 const PLAYZONE_Y = [420, 725]
 
 
-class Player extends spaceEntity {
+class spacePlayer extends spaceEntity {
 
     constructor() {
         super();
@@ -50,8 +50,8 @@ class Player extends spaceEntity {
         this.playSound('#playerLaser', true);
 
         if (this.score > 100) {
-            this.lasers.push(new Laser('./assets/resources/misc/beams.png', [this.X + 28, this.Y - 16], [0, -15], 75, 'red'))
-        } else this.lasers.push(new Laser('./assets/resources/misc/beams.png', [this.X + 28, this.Y - 16], [0, -20], 55))
+            this.lasers.push(new spaceLaser('./assets/resources/misc/beams.png', [this.X + 28, this.Y - 16], [0, -15], 75, 'red'))
+        } else this.lasers.push(new spaceLaser('./assets/resources/misc/beams.png', [this.X + 28, this.Y - 16], [0, -20], 55))
         this.laserOverheat += 2;
         this.laserCurrentCooldown = this.laserCooldown;
     }
