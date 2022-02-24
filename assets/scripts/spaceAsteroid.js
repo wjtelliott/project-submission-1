@@ -42,7 +42,7 @@ class spaceAsteroid extends spaceEntity {
     }
     kill(hurt) {
         this.hurtPlayer = hurt ?? false;
-        this.removeFromMap = true;
+        super.kill();
     }
     serializeObject() {
         return {

@@ -3,8 +3,9 @@ const PARTICLE_IMAGE_2 = Object.assign(new Image(), {src: './assets/resources/mi
 const PARTICLE_IMAGE_3 = Object.assign(new Image(), {src: './assets/resources/misc/explosion_03_strip13.png'});
 const PARTICLE_STARDUST = Object.assign(new Image(), {src: './assets/resources/misc/flare_0.png'});
 
-class Particle {
+class Particle extends spaceEntity {
     constructor(sprite, width = 1, height = 1, animates = false) {
+        super();
         switch (sprite) {
             default:
             case 1: this.image = PARTICLE_IMAGE_1; break;
@@ -39,12 +40,6 @@ class Particle {
         }
     }
 
-    kill() {
-        this.removeFromMap = true;
-        if (this.light != null)
-            lightController.lights = lightController.lights.filter(e => e !== this.light);
-    }
-
     update() {
         if (this.isAnimated) {
             this.animationCounter = (this.animationCounter + 1 > this.animationCounterMax) ? 0 : this.animationCounter + 1;
@@ -53,24 +48,6 @@ class Particle {
         if (this.frame === -1) this.kill();
         if (this.position[1] > 800) this.kill();
         if (this.velocity != null) this.position[1] += this.velocity[1];
-    }
-
-    serializeObject() {
-        return (this.isAnimated) ? {
-            image: this.image,
-            X: this.position[0],
-            Y: this.position[1],
-            sourceX: this.width * this.frame,
-            sourceY: 0,
-            sourceWidth: this.width,
-            sourceHeight: this.height
-        } : {
-            image: this.image,
-            X: this.position[0],
-            Y: this.position[1],
-            width: this.width,
-            height: this.height
-        }
     }
 }
 
