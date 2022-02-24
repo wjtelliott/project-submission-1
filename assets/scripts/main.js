@@ -1,4 +1,9 @@
 let scriptLoader = {
+
+    /**
+     * Some scripts are dependant on others. We need to make sure the most dependant is on top, and the
+     * scripts with least amount of calls to others are on the bottom
+     */
     scriptList: [
         './assets/scripts/episodes.js',
         './assets/scripts/spaceMap.js',
@@ -11,14 +16,14 @@ let scriptLoader = {
         './assets/scripts/spaceEnemy.js',
         './assets/scripts/spaceEntity.js',
     ],
+
     runScript: (srcFile) => {
         let scriptDOM = Object.assign(document.createElement('script'), {src: srcFile})
+        // Run scripts, pop next one
         scriptDOM.onload = () => scriptLoader.loadScripts();
         document.querySelector('body').append(scriptDOM);
     },
-    loadScripts: () => {
-        if (scriptLoader.scriptList.length > 0) scriptLoader.runScript(scriptLoader.scriptList.pop());
-    },
+    loadScripts: () => (scriptLoader.scriptList.length > 0) ? scriptLoader.runScript(scriptLoader.scriptList.pop()) : null,
 }
 
 $(document).ready(()=>scriptLoader.loadScripts());

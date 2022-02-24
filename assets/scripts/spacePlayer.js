@@ -5,24 +5,30 @@ const PLAYER_ACCEL = 0.4
 const PLAYZONE_X = [25, 1125]
 const PLAYZONE_Y = [420, 725]
 
-
+/**
+ * Player object
+ */
 class spacePlayer extends spaceEntity {
 
     constructor() {
         super();
+
         this.image = new Image();
         this.image.src = './assets/resources/player/shipsall.gif'
+
         this.X = 420;
         this.Y = 1000;
+
+        this.velocity = {X: 0, Y: 0};
+
         this.keys = {};
         
+        this.score = 0;
         this.lives = 3;
 
         this.lasers = [];
-
         this.laserCooldown = 10;
         this.laserCurrentCooldown = 0;
-
         this.laserOverheat = 0;
         this.laserOverheatMax = 20;
         this.overheatedGuns = false;
@@ -30,11 +36,7 @@ class spacePlayer extends spaceEntity {
         this.sourceWidth = this.sourceHeight = 64;
         this.sourceX = this.sourceY = 0;
 
-        this.score = 0;
-
         this.useFriction = true;
-
-        this.velocity = {X: 0, Y: 0};
 
         window.addEventListener('keydown', this.keyDownListener, false);
         window.addEventListener('keyup', this.keyUpListener, false);
@@ -44,14 +46,21 @@ class spacePlayer extends spaceEntity {
      * Laser
      */
 
+    /**
+     * Create and shoot a new laser towards enemies.
+     * Position will be offset X=>28, Y=>-16, Speed -15 or -20
+     * @returns undefined
+     */
     createPlayerLaser() {
         if (this.laserCurrentCooldown > 0 || this.overheatedGuns) return;
         
         this.playSound('#playerLaser', true);
 
+        // Red laser has different properties
         if (this.score > 100) {
             this.lasers.push(new spaceLaser('./assets/resources/misc/beams.png', [this.X + 28, this.Y - 16], [0, -15], 75, 'red'))
         } else this.lasers.push(new spaceLaser('./assets/resources/misc/beams.png', [this.X + 28, this.Y - 16], [0, -20], 55))
+
         this.laserOverheat += 2;
         this.laserCurrentCooldown = this.laserCooldown;
     }
@@ -71,6 +80,10 @@ class spacePlayer extends spaceEntity {
      * Player UI
      */
 
+    /**
+     * Draw player UI text and boxes
+     * @param {canvas 2d context} ctx 
+     */
     drawUI = (ctx) => {
 
 
@@ -129,8 +142,11 @@ class spacePlayer extends spaceEntity {
 
     
 
+    /**
+     * Update player object logic
+     * @param {spaceLaser[]} enemyLasers 
+     */
     update(enemyLasers) {
-
 
         //If we aren't playing background music, it will start
         if (!this.isSoundPlaying('#backgroundAudio')) this.playSound('#backgroundAudio', false);
@@ -177,6 +193,11 @@ class spacePlayer extends spaceEntity {
      * We need a custom collision check here
      */
 
+    /**
+     * Check if enemy lasers are colliding with the player
+     * @param {spaceLaser[]} lasers 
+     * @param {Number} collisionDistance 
+     */
     checkCollision(lasers, collisionDistance = 2500) {
         lasers.forEach(e => {
             if (this.getDistance(e.position, 32) < collisionDistance) {

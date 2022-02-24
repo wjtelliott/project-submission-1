@@ -13,7 +13,7 @@ class spaceLaser extends spaceEntity {
         this.laserType = lType;
 
 
-        // False for saving computation time
+        // Make false for saving computation time
         if (LASERS_HAVE_LIGHTS) {
             if (this.laserType === 'red') this.light = new spaceLight(new Vector(this.position[0] + 21, this.position[1] + 50), 200, 'rgba(250,1,1,.04)');
             else this.light = new spaceLight(new Vector(this.position[0] + 9, this.position[1] + 16), 200, 'rgba(250,1,250,.02)');
@@ -33,6 +33,10 @@ class spaceLaser extends spaceEntity {
         this.lifespan--;
     }
 
+    /**
+     * Laser sprite properties
+     * @returns Object for rendering serialization
+     */
     getLaserProperties() {
         switch (this.laserType) {
             case 'default':

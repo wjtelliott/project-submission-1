@@ -1,3 +1,6 @@
+/**
+ * All game objects should extend this to gain basic functionality
+ */
 class spaceEntity {
 
     /**
@@ -5,13 +8,12 @@ class spaceEntity {
      * We will need certain ones to be undefined to determine which way to serialize objects later
      */
     constructor() {
-
     }
 
 
 
     /**
-     * Call this if we want to remove an object from the map
+     * Remove an object and it's light from the map
      */
     kill() {
         this.removeFromMap = true;
@@ -33,7 +35,6 @@ class spaceEntity {
         });
         return collision;
     }
-
     checkPlayerCollision = (playerPosition, offset, collisionDistance = 2500) => this.getDistance(playerPosition, offset) < collisionDistance
 
 
@@ -94,6 +95,15 @@ class spaceEntity {
             image: this.image,
             X: this.position[0],
             Y: this.position[1]
+        } : (this.rotation != undefined) ? {
+            image: this.image,
+            X: this.position[0],
+            Y: this.position[1],
+            sourceX: 32,
+            sourceY: 0,
+            sourceWidth: 32,
+            sourceHeight: 32,
+            rotate: this.rotation
         } : {
             image: this.image,
             // Some objects use this.position, some use this.X / Y in this method

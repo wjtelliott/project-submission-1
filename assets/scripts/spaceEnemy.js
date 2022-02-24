@@ -18,10 +18,12 @@ class spaceEnemy extends spaceEntity{
     }
 
     update(lasers, playerPosition, formationVelocity) {
+        
+        // Ignore formation velocity if we are still flying into place
         if (this.inFormation) {
             this.velocity = formationVelocity;
         } else {
-            //flying in
+            // Fly in a squiggle towards player to dodge their lasers
             this.velocity[0] = Math.cos(this.position[1] / 10) * 5;
             if (this.position[1] >= 250) this.inFormation = true;
         }

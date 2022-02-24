@@ -12,6 +12,9 @@ class spaceAsteroid extends spaceEntity {
         this.rotAdd = rot;
         this.removeFromMap = false;
         this.hurtPlayer = false;
+        this.sourceWidth = this.sourceHeight = 32;
+        this.sourceX = 32;
+        this.sourceY = 0;
     }
     getRandomSpawnPoint() {
         //List of spawn points available for asteroids.
@@ -31,39 +34,22 @@ class spaceAsteroid extends spaceEntity {
     }
     checkCollision(lasers, playerPosition) {
         this.checkLaserCollision(lasers, -16) ? this.kill() : null;
+
+        // BUG: Sometimes the playerPosition is null here???
         playerPosition != null ? this.checkPlayerCollision(playerPosition, -16) ? this.kill(true) : null : null;
     }
     update(lasers, playerPos) {
         this.position[0] += this.velocity[0];
         this.position[1] += this.velocity[1];
+        
+        // Playzone bounds
         if (this.position[0] < -250 || this.position[0] > 1400 || this.position[1] < -200 || this.position[1] > 900) this.kill();
+
         this.rotation = (this.rotation + this.rotAdd > 360) ? 0 : this.rotation + this.rotAdd;
         this.checkCollision(lasers, playerPos);
     }
     kill(hurt) {
         this.hurtPlayer = hurt ?? false;
         super.kill();
-    }
-    serializeObject() {
-        return {
-            image: this.image,
-            X: this.position[0],
-            Y: this.position[1],
-            sourceX: 32,
-            sourceY: 0,
-            sourceWidth: 32,
-            sourceHeight: 32,
-            rotate: this.rotation
-        };
-    }
-    serializeLightMap() {
-        return {
-            position: {
-                x: this.position[0],
-                y: this.position[1]
-            },
-            width: 32,
-            height: 32
-        };
     }
 }

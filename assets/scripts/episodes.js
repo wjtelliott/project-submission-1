@@ -71,14 +71,24 @@ const e1m4 = () => new spaceRoom(
 );
 
 let episodeController = {
+
+    // These can be null until loaded
     startDemo: 0,
     currentMap: 0,
+
     frameStutters: 0,
+
     startGame: () => {
         episodeController.startDemo = setInterval(() => {
+
+            // Check if we init the map before play
             episodeController?.currentMap?.isLoaded ? null : episodeController?.currentMap?.init?.();
+
             let start = new Date();
+
+            // This will update logic, then draw
             episodeController?.currentMap?.update();
+
             let total = new Date().getTime() - start.getTime();
             if (Number(total) >= 10) episodeController.frameStutters++;
             if (episodeController.frameStutters > 20) episodeController.currentMap.disableLight = true;
@@ -86,8 +96,6 @@ let episodeController = {
         $('#playAgain').hide();
     },
     stopGame: (win) => {
-        //$('h3').text(text);
-        //$('h4').text(text.includes('Win') ? 'Congratualations!' : '');
         clearInterval(episodeController.startDemo);
         $('#playAgain').show();
         $('#playAgain').text(win ? 'You won! :) - Play again?' : 'You lost! :( - Play again?');
@@ -95,6 +103,8 @@ let episodeController = {
     nextMap: (map) => {
         episodeController?.currentMap?.kill?.();
         episodeController.frameStutters = 0;
+
+        // If our map param in null, follow the map loading order, otherwise jump to param map
         if (map == null) {
             switch (episodeController.currentMap.toString()) {
                 default:
@@ -106,5 +116,8 @@ let episodeController = {
         } else episodeController.currentMap = map;
     }
 }
+
+
+// Game entry point. Keep these at the LAST loaded script
 episodeController.nextMap(e1m1());
 episodeController.startGame();

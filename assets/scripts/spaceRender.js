@@ -18,14 +18,13 @@ const spaceRender = {
         spaceRender.context.translate(sObject.X + sObject.sourceWidth / 2, sObject.Y + sObject.sourceHeight / 2);
         spaceRender.context.rotate(sObject.rotate * Math.PI / 180);
 
-        // Create new object params, revoke rotation
+        // Create new object params, we must revoke rotation
         const {rotate, ...newObject} = sObject;
 
         // We move X & Y to have the object origin on the 0,0 location of our canvas
         newObject.X = -(newObject.sourceWidth / 2);
         newObject.Y = -(newObject.sourceHeight / 2);
 
-        // Draw our new object with new params
         spaceRender.drawSerializedObject(newObject);
         spaceRender.context.restore();
     },

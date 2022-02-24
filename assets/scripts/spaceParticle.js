@@ -32,7 +32,12 @@ class Particle extends spaceEntity {
         }
     }
 
-    // This should be moved to construction!!!
+    /**
+     * Set new particle position
+     * This needs to be called after construction
+     * @param {Number[]} newPos 
+     */
+    // TODO: This should be moved to construction!!!
     setPosition = newPos => {
         this.position = newPos;
         if (this.light != null) {
@@ -41,6 +46,9 @@ class Particle extends spaceEntity {
         }
     }
 
+    /**
+     * Update particle logic
+     */
     update() {
         if (this.isAnimated) {
             this.animationCounter = (this.animationCounter + 1 > this.animationCounterMax) ? 0 : this.animationCounter + 1;
@@ -52,6 +60,9 @@ class Particle extends spaceEntity {
     }
 }
 
+/**
+ * Particle controller to manage map particles cleaner
+ */
 let particleController = {
     particles: [],
     update: () => {
@@ -59,7 +70,5 @@ let particleController = {
         particleController.filterParticles();
     },
     filterParticles: () => particleController.particles = particleController.particles.filter(e => !e.removeFromMap),
-    draw: () => {
-        particleController.particles.forEach(e => spaceRender.drawSerializedObject(e.serializeObject()));
-    }
+    draw: () => particleController.particles.forEach(e => spaceRender.drawSerializedObject(e.serializeObject()))
 }

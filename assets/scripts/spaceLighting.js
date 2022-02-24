@@ -7,9 +7,9 @@ class spaceLight {
         this.angle = 90;
         this.isMapLight = mapLight;
     }
-
 }
 
+// We should be using this for all positioning in this project, rather than this.X/this.Y or [X, Y]
 function Vector(x, y) {
     this.x = x ?? 0;
     this.y = y ?? 0;
@@ -79,6 +79,12 @@ const lightUtil = {
          * This will have unexpected results if the alpha channel has
          * the same value as a color
          */
+
+
+        /**
+         * We want to grab [this] arg:
+         * rgba(123,123,123,[0.08]);
+         */
         let alpha = string.match(/^.+\((?:(?:.+\,)?)+(.+)\)$/)[1];
         return string.replace(alpha, Math.max(0, Number(alpha) - Number(delta)).toFixed(2))
     },
@@ -108,8 +114,8 @@ const lightUtil = {
             // obstructions
             for (let i = 0; i < episodeController.currentMap.enemies.length; i++)
                 findDistRes = lightUtil.findDistance(light, episodeController.currentMap.enemies[i].serializeLightMap(), curAngle, findDistRes.rLen, findDistRes.start, findDistRes.shortest, findDistRes.block);
-            //for (let i = 0; i < episodeController.currentMap.asteroids.length; i++)
-            //    findDistRes = lightUtil.findDistance(light, episodeController.currentMap.asteroids[i].serializeLightMap(), curAngle, findDistRes.rLen, findDistRes.start, findDistRes.shortest, findDistRes.block);
+            for (let i = 0; i < episodeController.currentMap.asteroids.length; i++)
+                findDistRes = lightUtil.findDistance(light, episodeController.currentMap.asteroids[i].serializeLightMap(), curAngle, findDistRes.rLen, findDistRes.start, findDistRes.shortest, findDistRes.block);
 
             // player
             findDistRes = lightUtil.findDistance(light, episodeController.currentMap.player.serializeLightMap(), curAngle, findDistRes.rLen, findDistRes.start, findDistRes.shortest, findDistRes.object);
@@ -136,7 +142,7 @@ const lightUtil = {
         
 
         if (light.isExplosive) {
-            // Light decay
+            // Light decay, -0.01 on the alpha channel
             light.color = lightUtil.setAlphaColor(light.color, 0.01)
         }
     }
