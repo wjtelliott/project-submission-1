@@ -1,5 +1,6 @@
-class spaceAsteroid {
+class spaceAsteroid extends spaceEntity {
     constructor(src, pos, vel, rot = 4) {
+        super();
         this.image = new Image();
         this.image.src = src;
         this.position = this.getRandomSpawnPoint();
@@ -28,40 +29,15 @@ class spaceAsteroid {
             [-20, -16]
         ][Math.floor(Math.random() * /*Have to use array length+1 here! =>*/11)]
     }
-    getTargetVelocity(currentPosition, targetPosition) {
-        let deltaX = targetPosition[0] - currentPosition[0];
-        let deltaY = targetPosition[1] - currentPosition[1];
-        return this.normalizeVector([deltaX, deltaY]);
-    }
-    normalizeVector(vector2) {
-        // fast inverse needed?
-        const length = 1 / Math.sqrt((vector2[0] * vector2[0]) + (vector2[1] * vector2[1]));
-        return [vector2[0] *= length, vector2[1] *= length];
-    }
-    getDistance(objectPosition) {
-        // objectPosition will always be X as [0] and Y as [1], same as this.position / this.velocity
-        if (objectPosition === null || this.position === null) return Infinity;
-        let p1 = objectPosition[0] - (this.position[0] - 16);
-        let p2 = objectPosition[1] - (this.position[1] - 16);
-        return (p1 * p1) + (p2 * p2);
-    }
-    checkCollision(lasers, playerPosition, collisionDistance = 2500) {
-        lasers?.forEach(e => {
-            if (this.getDistance(e.position) < collisionDistance) {
-                this.kill();
-                e.removeFromMap = (e.laserType !== 'red');
-            }
-        });
-        if (playerPosition == null) return;
-        if (this.getDistance(playerPosition) < collisionDistance) this.kill(true);
+    checkCollision(lasers, playerPosition) {
+        this.checkLaserCollision(lasers, -16) ? this.kill() : null;
+        playerPosition != null ? this.checkPlayerCollision(playerPosition, -16) ? this.kill(true) : null : null;
     }
     update(lasers, playerPos) {
         this.position[0] += this.velocity[0];
         this.position[1] += this.velocity[1];
         if (this.position[0] < -250 || this.position[0] > 1400 || this.position[1] < -200 || this.position[1] > 900) this.kill();
         this.rotation = (this.rotation + this.rotAdd > 360) ? 0 : this.rotation + this.rotAdd;
-
-        //console.log(lasers);
         this.checkCollision(lasers, playerPos);
     }
     kill(hurt) {

@@ -27,6 +27,9 @@ class Player extends spaceEntity {
         this.laserOverheatMax = 20;
         this.overheatedGuns = false;
 
+        this.sourceWidth = this.sourceHeight = 64;
+        this.sourceX = this.sourceY = 0;
+
         this.score = 0;
 
         this.useFriction = true;
@@ -37,7 +40,7 @@ class Player extends spaceEntity {
         window.addEventListener('keyup', this.keyUpListener, false);
     }
 
-    createTestLaser() {
+    createPlayerLaser() {
         if (this.laserCurrentCooldown > 0 || this.overheatedGuns) return;
         
         {
@@ -150,7 +153,7 @@ class Player extends spaceEntity {
         if (this.laserOverheat >= this.laserOverheatMax) this.overheatedGuns = true;
         if (this.overheatedGuns && this.laserOverheat <= 0) this.overheatedGuns = false;
 
-        if (this.keys[' ']) this.createTestLaser();
+        if (this.keys[' ']) this.createPlayerLaser();
 
         (this.useFriction) ? this.friction() : null;
         this.clampVelocity();
@@ -163,17 +166,9 @@ class Player extends spaceEntity {
         this.clampPlayerInPlayerzone();
     }
 
-    // getDistance(objectPosition) {
-    //     // objectPosition will always be X as [0] and Y as [1], same as this.position / this.velocity
-    //     if (objectPosition === null || this.position === null) return Infinity;
-    //     let p1 = objectPosition[0] - (this.X + 32);
-    //     let p2 = objectPosition[1] - (this.Y + 32);
-    //     return (p1 * p1) + (p2 * p2);
-    // }
-
     checkCollision(lasers, collisionDistance = 2500) {
         lasers.forEach(e => {
-            if (this.getDistance(e.position) < collisionDistance) {
+            if (this.getDistance(e.position, 32) < collisionDistance) {
                 this.hurt(1);
                 e.removeFromMap = true;
             }
@@ -208,29 +203,6 @@ class Player extends spaceEntity {
             (this.velocity.Y - frictionValue < 0) ? 0 : this.velocity.Y - frictionValue
             :
             (this.velocity.Y + frictionValue > 0) ? 0 : this.velocity.Y + frictionValue;
-    }
-
-    serializeObject() {
-        return {
-            image: this.image,
-            X: this.X,
-            Y: this.Y,
-            sourceX: 0,
-            sourceY: 0,
-            sourceWidth: 64,
-            sourceHeight: 64
-        }
-    }
-
-    serializeLightMap() {
-        return {
-            position: {
-                x: this.X,
-                y: this.Y
-            },
-            width: 64,
-            height: 64
-        }
     }
 
     keyUpListener = e => this.keys[e.key] = false;

@@ -1,5 +1,6 @@
-class spaceEnemy {
+class spaceEnemy extends spaceEntity{
     constructor(src, pos, vel) {
+        super();
         this.image = new Image();
         this.image.src = src;
         this.position = pos;
@@ -9,6 +10,9 @@ class spaceEnemy {
         this.hurtPlayer = false;
         this.inFormation = false;
         this.laser = null;
+
+        this.sourceWidth = this.sourceHeight = 64;
+        this.sourceX = this.sourceY = 128;
     }
 
     update(lasers, playerPosition, formationVelocity) {
@@ -23,26 +27,17 @@ class spaceEnemy {
         this.position[0] += this.velocity[0];
         this.position[1] += this.velocity[1];
 
-        if (Math.floor(Math.random() * 180) === 1) {
+        if (this.getRandom(0, 70) === 1)
             this.laser = new Laser('./assets/resources/misc/beams.png', [this.position[0] + 28, this.position[1] + 16], [0, 10], 55)
-        }
 
         this.checkCollision(lasers, playerPosition);
 
         if (this.position[1] >= 900) this.kill(true);
     }
 
-    getDistance(objectPosition) {
-        // objectPosition will always be X as [0] and Y as [1], same as this.position / this.velocity
-        if (objectPosition === null || this.position === null) return Infinity;
-        let p1 = objectPosition[0] - (this.position[0] + 32);
-        let p2 = objectPosition[1] - (this.position[1] + 32);
-        return (p1 * p1) + (p2 * p2);
-    }
-
     kill(hurtPlayer) {
+        super.kill();
         this.hurtPlayer = hurtPlayer ?? false;
-        this.removeFromMap = true;
         {
             let audio = document.querySelector(`#enemyExplosion${Math.floor(Math.random() * 3) + 1}`);
             audio.volume = 0.1;
@@ -51,36 +46,8 @@ class spaceEnemy {
         }
     }
 
-    checkCollision(lasers, playerPosition, collisionDistance = 2500) {
-        lasers.forEach(e => {
-            if (this.getDistance(e.position) < collisionDistance) {
-                this.kill();
-                e.removeFromMap = (e.laserType !== 'red');
-            }
-        });
-        if (this.getDistance(playerPosition) < collisionDistance) this.kill(true);
-    }
-
-    serializeObject() {
-        return {
-            image: this.image,
-            X: this.position[0],
-            Y: this.position[1],
-            sourceX: 128,
-            sourceY: 128,
-            sourceWidth: 64,
-            sourceHeight: 64
-        }
-    }
-
-    serializeLightMap() {
-        return {
-            position: {
-                x: this.position[0],
-                y: this.position[1]
-            },
-            width: 64,
-            height: 64
-        }
+    checkCollision(lasers, playerPosition) {
+        this.checkLaserCollision(lasers, 32) ? this.kill() : null;
+        this.checkPlayerCollision(playerPosition, 32) ? this.kill(true) : null;
     }
 }
