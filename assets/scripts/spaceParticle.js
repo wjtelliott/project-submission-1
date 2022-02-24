@@ -32,6 +32,7 @@ class Particle extends spaceEntity {
         }
     }
 
+    // This should be moved to construction!!!
     setPosition = newPos => {
         this.position = newPos;
         if (this.light != null) {

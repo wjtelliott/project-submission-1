@@ -1,5 +1,5 @@
 const spaceRender = {
-    context: document.querySelector('#gameSpace').getContext('2d'),
+    context: document.querySelector('#gameSpace').getContext('2d', {alpha: false}),
     canvasObject: document.querySelector('#gameSpace'),
     canvasSpace: {
         width: document.querySelector('#gameSpace').width,

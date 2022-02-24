@@ -85,8 +85,8 @@ let episodeController = {
         }, 16);
     },
     stopGame: (text) => {
-        $('h3').text(text);
-        $('h4').text(text.includes('Win') ? 'Congratualations!' : '');
+        //$('h3').text(text);
+        //$('h4').text(text.includes('Win') ? 'Congratualations!' : '');
         clearInterval(episodeController.startDemo);
     },
     nextMap: (map) => {

@@ -120,6 +120,18 @@ class spaceEntity {
         }
     }
 
+    /**
+     * Sounds
+     */
+    playSound(snd, restart) {
+        let audio = document.querySelector(snd);
+        if (audio == null) return;
+        audio.volume = 0.1;
+        if (restart) audio.currentTime = 0;
+        audio.play();
+    }
+    isSoundPlaying = snd => document.querySelector(snd)?.currentTime > 0
+
 
     /**
      * Utility

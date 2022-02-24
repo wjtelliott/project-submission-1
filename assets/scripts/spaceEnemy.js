@@ -37,13 +37,8 @@ class spaceEnemy extends spaceEntity{
 
     kill(hurtPlayer) {
         super.kill();
+        this.playSound(`#enemyExplosion${this.getRandom(1, 2)}`, false);
         this.hurtPlayer = hurtPlayer ?? false;
-        {
-            let audio = document.querySelector(`#enemyExplosion${Math.floor(Math.random() * 3) + 1}`);
-            audio.volume = 0.1;
-            audio.currentTime = 0;
-            audio.play();
-        }
     }
 
     checkCollision(lasers, playerPosition) {

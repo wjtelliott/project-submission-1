@@ -4,24 +4,27 @@
 
 ### MVP:
 
-- Player has to have the 'illusion' of moving upwards from the space background ( Changed )
+- Player has to have the 'illusion' of moving upwards from the space background ( Reached )
 - Enemies will spawn and fly downwards towards the player ( Reached )
 - The player will lose if they are hit too many times / too many enemies get past the player ( Reached )
 - The player can shoot and destroy enemy ships ( Reached )
 
 ### Stretch goals:
 
-- Asteroids physics gamemode
-- Enemies can shoot towards the player
+- Asteroids physics gamemode ( Not reached )
+- Enemies can shoot towards the player ( Reached )
 - Rounds / levels ( Reached )
-- Enemies move in patterns
+- Enemies move in patterns ( Reached )
 
 ### Bonus bonus goals:
 
 - Lighting ( Reached )
 - Velocity, friction, and accelleration ( Reached )
-- Bosses with each level
+- Bosses with each level ( Not reached )
 - Particle 'engine' for explosions ( Reached )
+- Music ( Reached )
+- Cool sounds! ( Reached )
+- Asteroid obstacles ( Reached )
 
 
 

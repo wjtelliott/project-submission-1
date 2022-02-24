@@ -1,4 +1,4 @@
-const LASERS_HAVE_LIGHTS = true;
+const LASERS_HAVE_LIGHTS = false;
 
 
 class Laser extends spaceEntity {
@@ -13,8 +13,7 @@ class Laser extends spaceEntity {
         this.laserType = lType;
 
 
-
-
+        // False for saving computation time
         if (LASERS_HAVE_LIGHTS) {
             if (this.laserType === 'red') this.light = new Light(new Vector(this.position[0] + 21, this.position[1] + 50), 200, 'rgba(250,1,1,.04)');
             else this.light = new Light(new Vector(this.position[0] + 9, this.position[1] + 16), 200, 'rgba(250,1,250,.02)');
@@ -33,8 +32,6 @@ class Laser extends spaceEntity {
         
         this.lifespan--;
     }
-
-    
 
     getLaserProperties() {
         switch (this.laserType) {
