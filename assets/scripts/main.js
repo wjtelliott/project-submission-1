@@ -9,6 +9,7 @@ let scriptLoader = {
         './assets/scripts/spaceLaser.js',
         './assets/scripts/spaceRender.js',
         './assets/scripts/spaceEnemy.js',
+        './assets/scripts/spaceEntity.js',
     ],
     runScript: (srcFile) => {
         let scriptDOM = Object.assign(document.createElement('script'), {src: srcFile})

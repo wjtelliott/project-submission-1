@@ -4,7 +4,7 @@ const e1m1 = () => new Room(
         min: 60, // Enemy min spawn rate
         max: 200 // Enemy max spawn rate
     },
-    [new Light(new Vector(925, 525), 1200, 'rgba(250,250,255,0.04)', true)], // Initial lights
+    [new Light(new Vector(925, 525), 600, 'rgba(250,250,255,0.04)', true)], // Initial lights
     {
         min: 100, // Enemy min spawn X coord
         max: 1000 // Enemy max spawn X coord
